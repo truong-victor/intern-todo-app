@@ -2,20 +2,24 @@ import {
   createBrowserRouter,
   createRoutesFromElements,
   Route,
+  Routes,
 } from "react-router-dom";
 
 import Home from "../pages/home";
 import Register from "../pages/register";
 import Login from "../pages/login";
 import Manager from "../pages/manager";
+import Example from "../pages/example";
 
-const router = createBrowserRouter(
-  createRoutesFromElements(
-    <Route path="/" element={<Home />}>
+const AppRouter = (props) => {
+  return (
+    <Routes>
+      <Route path="/" element={<Home />} />
       <Route path="/register" element={<Register />} />
       <Route path="/login" element={<Login />} />
       <Route path="/manager" element={<Manager />} />
-    </Route>
-  )
-);
-export default router;
+      <Route path="/example" element={<Example />} />
+    </Routes>
+  );
+};
+export default AppRouter;
