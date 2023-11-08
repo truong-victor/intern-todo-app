@@ -1,7 +1,6 @@
 import { useForm } from "react-hook-form";
 import { registerApi } from "../api";
 import { toast } from "react-toastify";
-import { useEffect } from "react";
 
 const RegisterForm = (props) => {
   const methodForm = useForm({
@@ -13,11 +12,11 @@ const RegisterForm = (props) => {
     },
   });
 
-  useEffect(() => {
-    toast.error("something went wrong");
-  }, []);
-
-  const { register, handleSubmit } = methodForm;
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = methodForm;
 
   const onSubmit = handleSubmit(async (data) => {
     try {
@@ -45,12 +44,17 @@ const RegisterForm = (props) => {
                 Email
               </label>
               <input
-                {...register("email", { required: true })}
+                {...register("email", {
+                  required: "Trường này là bắt buộc",
+                })}
                 type="text"
                 // id="email"
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 placeholder="John"
               />
+              {errors?.email?.message && (
+                <span className="text-red-700">{errors?.email?.message}</span>
+              )}
             </div>
             <div>
               <label
@@ -60,12 +64,15 @@ const RegisterForm = (props) => {
                 Name
               </label>
               <input
-                {...register("name", { required: true })}
+                {...register("name", { required: "Trường này là bắt buộc" })}
                 type="text"
                 // id="name"
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 placeholder="John TT"
               />
+              {errors?.name?.message && (
+                <span className="text-red-700">{errors?.name?.message}</span>
+              )}
             </div>
             <div>
               <label
@@ -75,11 +82,18 @@ const RegisterForm = (props) => {
                 Password
               </label>
               <input
-                {...register("password", { required: true })}
+                {...register("password", {
+                  required: "Trường này là bắt buộc",
+                })}
                 type="password"
                 id="first_name"
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               />
+              {errors?.password?.message && (
+                <span className="text-red-700">
+                  {errors?.password?.message}
+                </span>
+              )}
             </div>
           </div>
           <button
