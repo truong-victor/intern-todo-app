@@ -120,7 +120,7 @@ export class BaseService {
     const convertParams = queryString.stringify(
       params ?? { page: 1, pageSize: 10 }
     );
-    const endpoint = `${this.BASE_URL}/${this.BASE_ENDPOINT}/search?${convertParams}`;
+    const endpoint = `${this.BASE_URL}/${this.BASE_ENDPOINT}?${convertParams}`;
     return this.request.get(endpoint, header);
   };
 
