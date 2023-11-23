@@ -8,6 +8,7 @@ import { toast } from "react-toastify";
 export const RegisterForm = (props) => {
   const {
     control,
+    watch,
     handleSubmit,
     formState: { isSubmitting, isDirty },
   } = useForm({
@@ -27,7 +28,7 @@ export const RegisterForm = (props) => {
       })
     ),
   });
-
+console.log(watch());
   const onSubmit = handleSubmit(async (data) => {
     console.log("🚀 ~ file: RegisterForm.jsx:24 ~ onSubmit ~ data:", data);
     try {

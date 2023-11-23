@@ -1,9 +1,10 @@
 import ShopLayout from "../../../@core/layout/ShopLayout";
 
+
 const Home = (props) => {
-  return (
+  return <ShopLayout>(
     <ShopLayout>
-      <>HOME PAGE</>;
+      <>HOME PAGE</></ShopLayout> ;
     </ShopLayout>
   );
 };
