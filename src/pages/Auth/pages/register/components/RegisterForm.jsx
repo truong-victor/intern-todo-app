@@ -5,6 +5,7 @@ import CoreInput from "../../../../../@core/components/inputs/CoreInput";
 import { LoadingButton } from "@mui/lab";
 import { authService } from "../../../services/authService";
 import { toast } from "react-toastify";
+import CoreUploadFile from "../../../../../@core/components/inputs/CoreUploadFile";
 export const RegisterForm = (props) => {
   const {
     control,
@@ -45,6 +46,7 @@ console.log(watch());
       onSubmit={onSubmit}
     >
       <h1 className="font-bold text-xl text-blue-500 text-center">Đăng ký</h1>
+      <CoreUploadFile control={control} name="avatar" />
       <CoreInput
         control={control}
         name="name"
