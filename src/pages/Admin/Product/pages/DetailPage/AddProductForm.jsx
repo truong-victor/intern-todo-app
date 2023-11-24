@@ -1,5 +1,4 @@
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router";
 import { yupResolver } from "@hookform/resolvers/yup";
 import Yup from "../../../../../@core/helper/Yup";
 import CoreInput from "../../../../../@core/components/inputs/CoreInput";
@@ -19,8 +18,8 @@ export const RegisterForm = (props) => {
     resolver: yupResolver(
       Yup.object({
         name: Yup.string().required().max(100),
-        email: Yup.string().email().required(),
-        password: Yup.string().required().min(6),
+        salePrice: Yup.string().required(),
+        price: Yup.string().required().min(6),
         passwordConfirm: Yup.string()
           .required()
           .oneOf(
@@ -30,13 +29,12 @@ export const RegisterForm = (props) => {
       })
     ),
   });
-const navigate = useNavigate()
+  console.log(watch());
   const onSubmit = handleSubmit(async (data) => {
+    console.log("🚀 ~ file: RegisterForm.jsx:24 ~ onSubmit ~ data:", data);
     try {
       await authService.register(data);
       toast.success("Đăng ký thành công");
-      navigate('/login')
-
     } catch (err) {
       toast.error("Đăng ký thất bại");
     }
@@ -57,20 +55,20 @@ const navigate = useNavigate()
       />
       <CoreInput
         control={control}
-        name="email"
-        placeholder="Điền Email của bạn"
-        label="Email"
+        name="salePrice"
+        placeholder="Sale Price"
+        label="Sale Price"
       />
       <CoreInput
         control={control}
-        name="password"
-        placeholder="Mật khẩu"
-        label="Mật khẩu"
-        type="password"
+        name="price"
+        placeholder="Price"
+        label="Price"
+        type="text"
       />
       <CoreInput
         control={control}
-        name="passwordConfirm"
+        name=""
         placeholder="Xác nhận mật khẩu"
         label="Xác nhận mật khẩu"
         type="password"
