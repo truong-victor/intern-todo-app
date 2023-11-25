@@ -18,8 +18,7 @@ const AuthProvider = (props) => {
       const userInfo = await authService.getInfo();
       setUser(userInfo?.data);
       console.log(userInfo);
-      if (window.location.pathname === "/Login") {
-        console.log('11231');
+      if (window.location.pathname === "/login") {
         navigate("/admin/home");
       }
     } catch (error) {

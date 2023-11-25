@@ -48,12 +48,13 @@ const navigate = useNavigate()
       onSubmit={onSubmit}
     >
       <h1 className="font-bold text-xl text-blue-500 text-center">Đăng ký</h1>
-      <CoreUploadFile control={control} name="avatar" />
+      {/* <CoreUploadFile control={control} name="avatar" /> */}
       <CoreInput
         control={control}
         name="name"
         placeholder="Điền tên của bạn"
         label="Họ và tên"
+        type="number"
       />
       <CoreInput
         control={control}

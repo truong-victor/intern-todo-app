@@ -37,6 +37,7 @@ export const AddProductForm = (props) => {
   const onSubmit = handleSubmit(async (data) => {
     console.log("data", data);
     const result = await productService.save(data);
+    toast.success("Them thanh cong")
   });
   return (
     <form
