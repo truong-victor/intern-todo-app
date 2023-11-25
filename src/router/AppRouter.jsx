@@ -17,7 +17,7 @@ const errorRoute = [
 ];
 
 const AppRouter = (props) => {
-  const appRoute = [...authRoute, ...shopRoute, adminRoute, errorRoute];
+  const appRoute = [...authRoute, ...shopRoute,... adminRoute,... errorRoute];
   return (
     <Suspense
       fallback={
