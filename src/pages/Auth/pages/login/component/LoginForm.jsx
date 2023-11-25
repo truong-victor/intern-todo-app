@@ -6,6 +6,9 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import Yup from "../../../../../@core/helper/Yup";
 import { LoadingButton } from "@mui/lab";
 import { toast } from "react-toastify";
+
+// import { LoginService } from "../LoginService";
+import { useNavigate } from "react-router-dom";
 export const LoginForm = (props) => {
   const {
     control,
@@ -21,13 +24,15 @@ export const LoginForm = (props) => {
       })
     ),
   });
-   
-  const {setToken} = useAuthContext()
+
+  const navigate = useNavigate();
+  const { setToken, login } = useAuthContext();
   const onSubmit = handleSubmit(async (data) => {
-    const response = await authService.login(data)
-    setToken(response?.data?.accessToken)
+    const response = await authService.login(data);
+    sessionStorage.setItem("accessToken", response?.data?.accessToken);
+    await login();
   });
-  
+
   return (
     <form
       className="flex flex-col gap-4 py-4 bg-gray-50 rounded-lg shadow-lg p-6 "

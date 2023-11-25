@@ -1,5 +1,13 @@
+import AdminLayout from "../../../../../@core/layout/AdminLayout";
+import AddProductForm from "./AddProductForm";
 const DetailProductPage = (props) => {
-  return <>DetailProductPage</>;
+  return (
+    <>
+      <AdminLayout>
+        <AddProductForm/>
+      </AdminLayout>
+    </>
+  );
 };
 
 export default DetailProductPage;

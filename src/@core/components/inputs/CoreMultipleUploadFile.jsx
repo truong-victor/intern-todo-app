@@ -1,11 +1,10 @@
 import { LoadingButton } from "@mui/lab";
 import { Box, Button } from "@mui/material";
+import Image from "mui-image";
 import { useRef, useState } from "react";
 import { useController } from "react-hook-form";
-
-const CoreUploadFile = (props) => {
+const CoreMultipleUploadFile = (props) => {
   const { control, name } = props;
-
   const {
     field: { value, onBlur, onChange, ref },
     fieldState: { error },
@@ -13,6 +12,7 @@ const CoreUploadFile = (props) => {
     name,
     control,
   });
+
   const inputRef = useRef();
   const handleClickUploadFile = () => {
     inputRef.current.click();
@@ -20,9 +20,8 @@ const CoreUploadFile = (props) => {
 
   const [loading, setLoading] = useState(false);
   const handleFileChange = async (e) => {
-    setLoading(true);
     const file = e.target.files[0];
-    const token = sessionStorage.getItem('accessToken')
+    const token = sessionStorage.getItem("accessToken");
     const formData = new FormData();
     formData.append("image", file);
 
@@ -30,14 +29,13 @@ const CoreUploadFile = (props) => {
       const response = await fetch(
         "https://nguyencongclone.onrender.com/api/v1/file",
         {
-          method: "POST",
           headers: { "x-access-token": token },
+          method: "POST",
           body: formData,
         }
       );
       const result = await response.json();
-
-      onChange(result?.data);
+      onChange([...value, result?.data]);
     } catch (error) {
       console.log(
         "🚀 ~ file: CoreUploadFile.jsx:32 ~ handleFileChange ~ error:",
@@ -45,12 +43,6 @@ const CoreUploadFile = (props) => {
       );
     }
     setLoading(false);
-
-    // const file = e.target.files[0];
-    // console.log(
-    //   "🚀 ~ file: CoreUploadFile.jsx:15 ~ handleFileChange ~ file:",
-    //   file
-    // );
   };
 
   return (
@@ -61,13 +53,13 @@ const CoreUploadFile = (props) => {
         className="hidden"
         onChange={handleFileChange}
       />
-
-      {value ? (
-        <Box className="w-[120px] aspect-square overflow-hidden">
-          <img src={value} alt="upload" className="w-full h-full" />
-        </Box>
-      ) : null}
-
+      <Box className="flex gap-3">
+        {value?.length > 0
+          ? value.map((image, index) => (
+              <Image key={index} width={100} height={100} src={image} />
+            ))
+          : "Chưa có file nào được upload"}
+      </Box>
       <LoadingButton
         loading={loading}
         onClick={handleClickUploadFile}
@@ -80,4 +72,4 @@ const CoreUploadFile = (props) => {
   );
 };
 
-export default CoreUploadFile;
+export default CoreMultipleUploadFile;

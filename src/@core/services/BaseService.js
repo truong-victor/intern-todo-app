@@ -11,7 +11,7 @@ export class BaseService {
   }
 
   getToken = () => {
-    const token = sessionStorage.getItem("beep");
+    const token = sessionStorage.getItem("accessToken");
     return token ?? "";
   };
 

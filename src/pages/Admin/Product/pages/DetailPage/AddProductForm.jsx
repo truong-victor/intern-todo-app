@@ -3,76 +3,86 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import Yup from "../../../../../@core/helper/Yup";
 import CoreInput from "../../../../../@core/components/inputs/CoreInput";
 import { LoadingButton } from "@mui/lab";
-import { authService } from "../../../services/authService";
+import { authService } from "../../../../Auth/services/authService";
 import { toast } from "react-toastify";
 import CoreUploadFile from "../../../../../@core/components/inputs/CoreUploadFile";
-export const RegisterForm = (props) => {
+import CoreMultipleUploadFile from "../../../../../@core/components/inputs/CoreMultipleUploadFile";
+import Image from "mui-image";
+import CoreInputRichText from "../../../../../@core/components/inputs/CoreInputRichText";
+import { productService } from "../../services/productService";
+export const AddProductForm = (props) => {
   const {
     control,
     watch,
     handleSubmit,
-    formState: { isSubmitting, isDirty },
+    formState: { isSubmitting, isDirty, errors },
   } = useForm({
     mode: "onTouched",
-    defaultValues: {},
+    defaultValues: {
+      listImage: [],
+    },
     resolver: yupResolver(
       Yup.object({
         name: Yup.string().required().max(100),
-        salePrice: Yup.string().required(),
-        price: Yup.string().required().min(6),
-        passwordConfirm: Yup.string()
-          .required()
-          .oneOf(
-            [Yup.ref("password"), null],
-            "Mật khẩu xác nhận không phù hợp"
-          ),
+        salePrice: Yup.number().required(),
+        price: Yup.number().required(),
+        avatar: Yup.string().required(),
+        listImage: Yup.array().required(),
+        description: Yup.string().required(),
       })
     ),
   });
-  console.log(watch());
-  const onSubmit = handleSubmit(async (data) => {
-    console.log("🚀 ~ file: RegisterForm.jsx:24 ~ onSubmit ~ data:", data);
-    try {
-      await authService.register(data);
-      toast.success("Đăng ký thành công");
-    } catch (err) {
-      toast.error("Đăng ký thất bại");
-    }
-  });
 
+  console.log("w", watch());
+  const onSubmit = handleSubmit(async (data) => {
+    console.log("data", data);
+    const result = await productService.save(data);
+  });
   return (
     <form
-      className="flex flex-col gap-4 py-4 bg-gray-50 rounded-lg shadow-lg p-6 "
+      className="w-full flex flex-col gap-4 py-4 bg-gray-50 rounded-lg shadow-lg p-6  "
       onSubmit={onSubmit}
     >
-      <h1 className="font-bold text-xl text-blue-500 text-center">Đăng ký</h1>
-      <CoreUploadFile control={control} name="avatar" />
+      <h1 className="font-bold text-xl text-blue-500 text-center">
+        Thêm sản phẩm
+      </h1>
       <CoreInput
         control={control}
         name="name"
-        placeholder="Điền tên của bạn"
-        label="Họ và tên"
+        placeholder="Điền tên sản phẩm"
+        label="Tên sản phẩm"
       />
       <CoreInput
         control={control}
         name="salePrice"
         placeholder="Sale Price"
         label="Sale Price"
+        type='number'
       />
       <CoreInput
         control={control}
         name="price"
         placeholder="Price"
         label="Price"
-        type="text"
+        type="number"
       />
-      <CoreInput
+      <CoreUploadFile
         control={control}
-        name=""
-        placeholder="Xác nhận mật khẩu"
-        label="Xác nhận mật khẩu"
-        type="password"
+        name="avatar"
+        placeholder="Ảnh sản  phẩm"
+        label="Anh san pham"
+        type="file"
       />
+
+      <CoreMultipleUploadFile
+        control={control}
+        name="listImage"
+        placeholder="List Image"
+        label="List Image"
+        type="file"
+      />
+      <CoreInputRichText control={control} name="description" />
+
       <LoadingButton
         disabled={!isDirty}
         loading={isSubmitting}
@@ -85,3 +95,5 @@ export const RegisterForm = (props) => {
     </form>
   );
 };
+
+export default AddProductForm;

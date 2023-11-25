@@ -10,6 +10,10 @@ class AuthService extends BaseService {
     const endpoint = `${this.BASE_URL}/api/v1/user/login`;
     return this.request.post(endpoint,data);
   }
+  getInfo = () => {
+    const endpoint = `${this.BASE_URL}/api/v1/user/me`;
+    return this.request.get(endpoint);
+  }
 }
 
 export const authService = new AuthService();

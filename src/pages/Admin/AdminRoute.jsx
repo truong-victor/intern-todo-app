@@ -1,28 +1,29 @@
-import React from "react";
-import ListProductPage from "./Product/pages/ListPage";
-
+import React, { Suspense } from "react";
+import useAuthContext from "../../@core/provider/AuthProvider";
+import { CircularProgress } from "@mui/material";
 const LazyListProductPage = React.lazy(() =>
   import("./Product/pages/ListPage")
 );
+const LazyDetailProductPage = React.lazy(() =>
+  import("./Product/pages/DetailPage")
+);
+const LazyHomePage = React.lazy(() =>
+  import("./Product/pages/home")
+);
 
-export const ProtectRouteAuth = (props) => {
-  const { token } = useAuthContext();
 
-  if (!token) {
-    sessionStorage.clear();
-    return <Navigate to={"/login"} />;
-  }
-
-  return props.children;
-};
 
 export const adminRoute = [
   {
-    path: "/product",
-    component: (
-      <ProtectRouteAuth>
-        <LazyListProductPage />
-      </ProtectRouteAuth>
-    ),
+    path: "/Admin/ListProduct",
+    component: <LazyListProductPage />,
+  },
+  {
+    path: "/Admin/DetailProduct",
+    component: <LazyDetailProductPage />,
+  },
+  {
+    path: "/Admin/home",
+    component: <LazyHomePage/>,
   },
 ];
