@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { authService } from "../../pages/Auth/services/authService";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router";
@@ -25,8 +25,14 @@ const AuthProvider = (props) => {
       toast.error("Vui lofng dang nhap");
       navigate("/login");
     }
-
   };
+
+  useEffect(() => {
+    const localToken = sessionStorage.getItem("accessToken");
+    if (localToken) {
+      login();
+    }
+  }, []);
 
   const logout = () => {
     setUser(null);

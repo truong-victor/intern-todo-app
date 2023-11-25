@@ -22,13 +22,14 @@ const CoreUploadFile = (props) => {
   const handleFileChange = async (e) => {
     setLoading(true);
     const file = e.target.files[0];
-    const token = sessionStorage.getItem('accessToken')
+    const token = sessionStorage.getItem("accessToken");
     const formData = new FormData();
     formData.append("image", file);
 
     try {
       const response = await fetch(
-        "https://nguyencongclone.onrender.com/api/v1/file",
+        // "https://nguyencongclone.onrender.com/api/v1/file",
+        "http://localhost:8888/api/v1/file",
         {
           method: "POST",
           headers: { "x-access-token": token },

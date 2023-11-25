@@ -1,9 +1,37 @@
-import { Box } from "@mui/material";
-import { Link } from "react-router-dom";
+import {
+  Box,
+  List,
+  ListItemButton,
+  ListItemText,
+  ListSubheader,
+} from "@mui/material";
+import { useNavigate } from "react-router";
 const NavBar = () => {
+  const navigate = useNavigate();
+  const adminNav = [
+    {
+      label: "Quản lý sản phẩm",
+      link: "/admin/product",
+    },
+  ];
   return (
     <Box component="aside">
-      <Link to="/Admin/DetailProduct">THEM SAN Pham</Link>
+      <List
+        sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}
+        component="nav"
+        aria-labelledby="nested-list-subheader"
+        subheader={
+          <ListSubheader component="div" id="nested-list-subheader">
+            Admin Nav
+          </ListSubheader>
+        }
+      >
+        {adminNav.map((item) => (
+          <ListItemButton onClick={() => navigate(item.link)}>
+            <ListItemText primary={item.label} />
+          </ListItemButton>
+        ))}
+      </List>
     </Box>
   );
 };

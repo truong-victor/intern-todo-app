@@ -27,7 +27,8 @@ const CoreMultipleUploadFile = (props) => {
 
     try {
       const response = await fetch(
-        "https://nguyencongclone.onrender.com/api/v1/file",
+        // "https://nguyencongclone.onrender.com/api/v1/file",
+        "http://localhost:8888/api/v1/file",
         {
           headers: { "x-access-token": token },
           method: "POST",
@@ -45,6 +46,12 @@ const CoreMultipleUploadFile = (props) => {
     setLoading(false);
   };
 
+  const handleRemoveImage = (link) => {
+    const result = value?.filter((item) => item !== link);
+
+    onChange(result);
+  };
+
   return (
     <div className="flex flex-col gap-4 items-center">
       <input
@@ -56,7 +63,16 @@ const CoreMultipleUploadFile = (props) => {
       <Box className="flex gap-3">
         {value?.length > 0
           ? value.map((image, index) => (
-              <Image key={index} width={100} height={100} src={image} />
+              <div className="flex flex-col gap-4 items-center">
+                <Image key={index} width={100} height={100} src={image} />
+                <Button
+                  color="error"
+                  variant="contained"
+                  onClick={() => handleRemoveImage(image)}
+                >
+                  Xoá
+                </Button>
+              </div>
             ))
           : "Chưa có file nào được upload"}
       </Box>

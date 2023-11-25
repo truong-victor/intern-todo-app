@@ -30,13 +30,12 @@ export const RegisterForm = (props) => {
       })
     ),
   });
-const navigate = useNavigate()
+  const navigate = useNavigate();
   const onSubmit = handleSubmit(async (data) => {
     try {
       await authService.register(data);
       toast.success("Đăng ký thành công");
-      navigate('/login')
-
+      navigate("/login");
     } catch (err) {
       toast.error("Đăng ký thất bại");
     }
@@ -54,7 +53,7 @@ const navigate = useNavigate()
         name="name"
         placeholder="Điền tên của bạn"
         label="Họ và tên"
-        type="number"
+        // type="number"
       />
       <CoreInput
         control={control}

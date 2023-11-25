@@ -3,7 +3,8 @@ import queryString from "query-string";
 export class BaseService {
   BASE_URL =
     process.env.NODE_ENV === "development"
-      ? "https://nguyencongclone.onrender.com"
+      ? // ? "https://nguyencongclone.onrender.com"
+        "http://localhost:8888"
       : "";
   BASE_ENDPOINT = "";
   constructor(endpoint) {

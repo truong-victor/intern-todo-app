@@ -7,23 +7,19 @@ const LazyListProductPage = React.lazy(() =>
 const LazyDetailProductPage = React.lazy(() =>
   import("./Product/pages/DetailPage")
 );
-const LazyHomePage = React.lazy(() =>
-  import("./Product/pages/home")
-);
-
-
+const LazyHomePage = React.lazy(() => import("./Product/pages/home"));
 
 export const adminRoute = [
   {
-    path: "/Admin/ListProduct",
+    path: "/admin/product",
     component: <LazyListProductPage />,
   },
   {
-    path: "/Admin/DetailProduct",
+    path: "/admin/product/:id",
     component: <LazyDetailProductPage />,
   },
   {
     path: "/Admin/home",
-    component: <LazyHomePage/>,
+    component: <LazyHomePage />,
   },
 ];

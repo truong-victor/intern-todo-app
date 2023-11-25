@@ -11,6 +11,11 @@ import Image from "mui-image";
 import CoreInputRichText from "../../../../../@core/components/inputs/CoreInputRichText";
 import { productService } from "../../services/productService";
 export const AddProductForm = (props) => {
+  const { initData, id } = props;
+  console.log(
+    "🚀 ~ file: AddProductForm.jsx:15 ~ AddProductForm ~ initData:",
+    initData
+  );
   const {
     control,
     watch,
@@ -19,7 +24,13 @@ export const AddProductForm = (props) => {
   } = useForm({
     mode: "onTouched",
     defaultValues: {
-      listImage: [],
+      id,
+      name: initData?.name ?? "",
+      avatar: initData?.avatar ?? "",
+      price: initData?.price,
+      salePrice: initData?.salePrice,
+      listImage: initData?.listImage ? JSON.parse(initData?.listImage) : [],
+      description: initData?.description,
     },
     resolver: yupResolver(
       Yup.object({
@@ -37,7 +48,7 @@ export const AddProductForm = (props) => {
   const onSubmit = handleSubmit(async (data) => {
     console.log("data", data);
     const result = await productService.save(data);
-    toast.success("Them thanh cong")
+    toast.success("Them thanh cong");
   });
   return (
     <form
@@ -45,7 +56,7 @@ export const AddProductForm = (props) => {
       onSubmit={onSubmit}
     >
       <h1 className="font-bold text-xl text-blue-500 text-center">
-        Thêm sản phẩm
+        {id !== "new" ? "Sua" : "them"}
       </h1>
       <CoreInput
         control={control}
@@ -58,7 +69,7 @@ export const AddProductForm = (props) => {
         name="salePrice"
         placeholder="Sale Price"
         label="Sale Price"
-        type='number'
+        type="number"
       />
       <CoreInput
         control={control}
@@ -67,6 +78,7 @@ export const AddProductForm = (props) => {
         label="Price"
         type="number"
       />
+      <p>Avatar</p>
       <CoreUploadFile
         control={control}
         name="avatar"
@@ -74,7 +86,7 @@ export const AddProductForm = (props) => {
         label="Anh san pham"
         type="file"
       />
-
+      <p>Image list</p>
       <CoreMultipleUploadFile
         control={control}
         name="listImage"
@@ -82,7 +94,12 @@ export const AddProductForm = (props) => {
         label="List Image"
         type="file"
       />
-      <CoreInputRichText control={control} name="description" />
+      <CoreInputRichText
+        control={control}
+        name="description"
+        placeholder="mo ta san pham"
+        label="mo ta san pham"
+      />
 
       <LoadingButton
         disabled={!isDirty}
@@ -91,7 +108,7 @@ export const AddProductForm = (props) => {
         variant="contained"
         color="primary"
       >
-        Đăng ký
+        {id !== "new" ? "Sua" : "them"}
       </LoadingButton>
     </form>
   );
