@@ -1,8 +1,16 @@
 import { Box } from "@mui/material";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
-
+import { Navigate } from "react-router";
+import { useAuthContext } from "../../provider/AuthProviders";
 const AdminLayout = (props) => {
+  const { token } = useAuthContext();
+
+  if (!token) {
+    sessionStorage.clear();
+    return <Navigate to={"/login"} />;
+  }
+
   return (
     <Box className="relative flex flex-col">
       <Header />
