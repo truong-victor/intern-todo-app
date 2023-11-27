@@ -1,11 +1,11 @@
 import { Box } from "@mui/material";
-import Footer from "./components/Footer";
 import Header from "./components/Header";
+import NavBar from "./components/NavBar";
+import { useAuthContext } from "../../provider/AuthProvider";
 import { Navigate } from "react-router";
-import { useAuthContext } from "../../provider/AuthProviders";
-const AdminLayout = (props) => {
-  const { token } = useAuthContext();
 
+const AdminLayout = (props) => {
+  const token = sessionStorage.getItem("accessToken");
   if (!token) {
     sessionStorage.clear();
     return <Navigate to={"/login"} />;
@@ -16,12 +16,9 @@ const AdminLayout = (props) => {
       <Header />
 
       <Box className="flex ">
-        {/* // ADMIN NAVBAR */}
-
+        <NavBar />
         <Box className="w-full">{props.children}</Box>
       </Box>
-
-      <Footer />
     </Box>
   );
 };

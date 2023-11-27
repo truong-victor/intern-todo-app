@@ -1,9 +1,12 @@
 import ShopLayout from "../../../@core/layout/ShopLayout";
-
+import Slider from "./components/Slider";
+import Product from "./components/product/Product";
 const Home = (props) => {
   return (
     <ShopLayout>
-      <>HOME PAGE</>;<>Upload file</>
+      <Slider />
+      <Product />
+      {/* <CoreUploadFile name="upload" type="file" /> */}
     </ShopLayout>
   );
 };

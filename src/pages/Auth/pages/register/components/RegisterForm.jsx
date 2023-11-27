@@ -1,4 +1,5 @@
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router";
 import { yupResolver } from "@hookform/resolvers/yup";
 import Yup from "../../../../../@core/helper/Yup";
 import CoreInput from "../../../../../@core/components/inputs/CoreInput";
@@ -29,14 +30,12 @@ export const RegisterForm = (props) => {
       })
     ),
   });
-
-  console.log(watch());
-
+  const navigate = useNavigate();
   const onSubmit = handleSubmit(async (data) => {
-    console.log("🚀 ~ file: RegisterForm.jsx:24 ~ onSubmit ~ data:", data);
     try {
       await authService.register(data);
       toast.success("Đăng ký thành công");
+      navigate("/login");
     } catch (err) {
       toast.error("Đăng ký thất bại");
     }
@@ -54,7 +53,7 @@ export const RegisterForm = (props) => {
         name="name"
         placeholder="Điền tên của bạn"
         label="Họ và tên"
-        type="number"
+        // type="number"
       />
       <CoreInput
         control={control}
