@@ -13,26 +13,28 @@ const CoreUploadFile = (props) => {
     name,
     control,
   });
+
   const inputRef = useRef();
+
   const handleClickUploadFile = () => {
     inputRef.current.click();
   };
+
+  //   Khi user chọn ảnh , lấy ảnh và gọi api upload
 
   const [loading, setLoading] = useState(false);
   const handleFileChange = async (e) => {
     setLoading(true);
     const file = e.target.files[0];
-    const token = sessionStorage.getItem("accessToken");
+
     const formData = new FormData();
     formData.append("image", file);
 
     try {
       const response = await fetch(
-        // "https://nguyencongclone.onrender.com/api/v1/file",
-        "http://localhost:8888/api/v1/file",
+        "https://nguyencongclone.onrender.com/api/v1/file",
         {
           method: "POST",
-          headers: { "x-access-token": token },
           body: formData,
         }
       );
@@ -64,7 +66,7 @@ const CoreUploadFile = (props) => {
       />
 
       {value ? (
-        <Box className="w-[120px] aspect-square overflow-hidden">
+        <Box className="w-[120px] aspect-square rounded-[50%] overflow-hidden">
           <img src={value} alt="upload" className="w-full h-full" />
         </Box>
       ) : null}

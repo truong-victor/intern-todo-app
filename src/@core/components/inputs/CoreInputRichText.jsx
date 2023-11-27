@@ -4,7 +4,7 @@ import { useController } from "react-hook-form";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 
-const CoreInputRichText = (props) => {  
+const CoreInputRichText = (props) => {
   const {
     className,
     control,
@@ -42,7 +42,7 @@ const CoreInputRichText = (props) => {
       />
       {error ? (
         <p className="text-red-500 text-[12px]">{error?.message}</p>
-      ) : null} 
+      ) : null}
       {helperText && (
         <FormHelperText className="italic text-8">{helperText}</FormHelperText>
       )}

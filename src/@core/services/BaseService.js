@@ -3,8 +3,7 @@ import queryString from "query-string";
 export class BaseService {
   BASE_URL =
     process.env.NODE_ENV === "development"
-      ? // ? "https://nguyencongclone.onrender.com"
-        "http://localhost:8888"
+      ? "https://nguyencongclone.onrender.com"
       : "";
   BASE_ENDPOINT = "";
   constructor(endpoint) {
@@ -12,7 +11,7 @@ export class BaseService {
   }
 
   getToken = () => {
-    const token = sessionStorage.getItem("accessToken");
+    const token = sessionStorage.getItem("beep");
     return token ?? "";
   };
 
@@ -123,7 +122,7 @@ export class BaseService {
     const convertParams = queryString.stringify(
       params ?? { page: 1, pageSize: 10 }
     );
-    const endpoint = `${this.BASE_URL}/${this.BASE_ENDPOINT}?${convertParams}`;
+    const endpoint = `${this.BASE_URL}/${this.BASE_ENDPOINT}/search?${convertParams}`;
     return this.request.get(endpoint, header);
   };
 

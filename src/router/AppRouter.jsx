@@ -1,7 +1,7 @@
 import { Route, Routes } from "react-router-dom";
 
 import Register from "../pages/Auth/pages/register";
-// import Login from "../pages/Auth/pages/login";
+// import Login from "../pages/login";
 
 import { shopRoute } from "../pages/Shop/ShopRoute";
 import { adminRoute } from "../pages/Admin/AdminRoute";
@@ -17,7 +17,7 @@ const errorRoute = [
 ];
 
 const AppRouter = (props) => {
-  const appRoute = [...authRoute, ...shopRoute, ...adminRoute, errorRoute];
+  const appRoute = [...authRoute, ...shopRoute, adminRoute, errorRoute];
   return (
     <Suspense
       fallback={
