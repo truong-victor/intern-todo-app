@@ -17,6 +17,7 @@ const CoreInput = (props) => {
     inputProps = {},
     multiline,
     helperText,
+
     ...restProps
   } = props;
 
@@ -28,15 +29,31 @@ const CoreInput = (props) => {
     control,
   });
 
+  let transform = {
+    input: (value) => value,
+    output: (e) => e,
+  };
+
+  if (type === "number") {
+    transform = {
+      input: (value) => value,
+      output: (e) => {
+        // const output = e.target.value
+        // return Number.isNaN(output) ? 0 : Number(output)
+        const onlyNums = e.target.value.replace(/[^0-9+-.]/g, "");
+        return Number(onlyNums);
+      },
+    };
+  }
   return (
     <Box className={className}>
       <TextField
         fullWidth
         label={label}
         placeholder={placeholder}
-        onChange={(e) => onChange(e)}
+        onChange={(e) => onChange(transform.output(e))}
         onBlur={onBlur}
-        value={value}
+        value={transform.input(value)}
         inputRef={ref}
         type={type}
         multiline={Boolean(multiline)}

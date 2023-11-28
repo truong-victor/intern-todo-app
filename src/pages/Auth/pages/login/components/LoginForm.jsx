@@ -6,8 +6,10 @@ import { LoadingButton } from "@mui/lab";
 import { authService } from "../../../services/authService";
 import { toast } from "react-toastify"; 
 import { useNavigate } from "react-router";
-
+import { Result } from "postcss";
+import { useAuthContext } from "../../../../../@core/provider/AuthProvider";
 export const LoginForm = () => { 
+  const authContext = useAuthContext();
     const navigate = useNavigate() ; 
   const {
     control,
@@ -28,9 +30,12 @@ export const LoginForm = () => {
     console.log("🚀 ~ file: LoginForm.jsx:24 ~ onSubmit ~ data:", data);
     try {
       // Gọi hàm đăng nhập từ authService
-      await authService.login(data);
+      const result =  await authService.login(data);
+      const accessToken = result.data.accessToken
+      authContext.login(accessToken) ; 
+      console.log(result);
       toast.success("Đăng nhập thành công");
-      navigate("/")
+      
       // Redirect hoặc thực hiện các hành động cần thiết sau khi đăng nhập thành công
     } catch (err) {
       toast.error("Đăng nhập thất bại");

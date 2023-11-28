@@ -1,12 +1,9 @@
-import AdminLayout from "../../../../../@core/layout/AdminLayout";
-
+import ListProductForm from "../ListPage/ListproductForm" ; 
 
 const ListProductPage = (props) => {
-  return  (
-    <AdminLayout>
-      <>HOME PAGE</>;<>Upload file</>
-    </AdminLayout>
-  );
+   return <>
+   <ListProductForm/>
+   </>;  
 };
 
 export default ListProductPage;

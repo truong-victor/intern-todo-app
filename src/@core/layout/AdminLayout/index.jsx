@@ -4,13 +4,15 @@ import Header from "./components/Header";
 import { Navigate } from "react-router";
 
 const AdminLayout = (props) => {
-  const { token } = useAuthContext();
+  const token = sessionStorage.getItem("accessToken");
 
   if (!token) {
+    // Nếu không có token, chuyển hướng đến trang đăng nhập
     sessionStorage.clear();
     return <Navigate to={"/login"} />;
   }
 
+  // Nếu có token, hiển thị giao diện trang admin
   return (
     <Box className="relative flex flex-col">
       <Header />
