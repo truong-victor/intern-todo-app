@@ -1,5 +1,5 @@
 import { Box } from "@mui/material";
-import Footer from "./components/Footer";
+
 import Header from "./components/Header";
 import { Navigate } from "react-router";
 
@@ -23,7 +23,7 @@ const AdminLayout = (props) => {
         <Box className="w-full">{props.children}</Box>
       </Box>
 
-      <Footer />
+   
     </Box>
   );
 };

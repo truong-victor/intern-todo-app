@@ -49,7 +49,14 @@ function ListproductForm() {
       ),
     },
     { field: 'quantity', headerName: 'Quantity', width: 120 },
-    { field: 'description', headerName: 'Description', flex: 1 },
+    {
+      field: 'description',
+      headerName: 'Description',
+      flex: 1,
+      renderCell: (params) => (
+        <div dangerouslySetInnerHTML={{ __html: params.value }} />
+      ),
+    },
     {
       field: 'actions',
       headerName: 'Actions',

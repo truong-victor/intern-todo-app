@@ -1,20 +1,38 @@
-import React from "react";
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router";
+import AdminLayout from "../../../../../@core/layout/AdminLayout";
 import AddProductForm from "./AddProductForm";
-
-const DetailProductPage = () => {
+import { useRequest } from "ahooks";
+import { adminProductService } from "../../../services/adminProductService";
+import { useEffect } from "react";
+import { Skeleton } from "@mui/material";
+const DetailProductPage = (props) => {
   const { id } = useParams();
+  console.log("🚀 ~ file: index.jsx:7 ~ DetailProductPage ~ id:", id);
 
+  const {
+    data: detailProduct,
+    loading: loadingDetailProduct,
+    run: getDetailProduct,
+  } = useRequest(adminProductService.find, {
+    manual: true,
+  });
+
+  useEffect(() => {
+    if (id === "new") {
+      //day la trang them moi
+    } else {
+      getDetailProduct(id);
+    }
+  }, [id]);
   return (
     <>
-      {id === "new" ? (
-        <AddProductForm initData={{}} id={id} />
-      ) : (
-        <>
-          <AddProductForm initData={{ /* Dữ liệu từ API hoặc nơi khác */ }} id={id} />
-          <p>DetailProductPage</p>
-        </>
-      )}
+      <AdminLayout>
+        {loadingDetailProduct ? (
+          <Skeleton />
+        ) : (
+          <AddProductForm initData={detailProduct?.data} id={id} />
+        )}
+      </AdminLayout>
     </>
   );
 };

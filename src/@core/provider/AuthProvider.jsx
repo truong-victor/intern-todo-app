@@ -1,7 +1,7 @@
 import { createContext, useContext, useState } from "react";
 import { authService } from "../../pages/Auth/services/authService";
 import { useNavigate } from "react-router";
-
+import { useEffect } from "react";
 const AuthContext = createContext();
 
 export const useAuthContext = () => useContext(AuthContext);
@@ -15,25 +15,34 @@ const AuthProvider = (props) => {
 
   const login = async (token) => {
     try {
-      console.log(token);
+      console.log(token); 
+      
       // Gọi AuthService để lấy thông tin người dùng
       const response = await authService.providerApi(token);
-  
+      console.log(response.data);
       // Cập nhật thông tin người dùng vào state sử dụng setUser
       setUser(response.data);
   
       // Lưu token vào sessionStorage
       sessionStorage.setItem("accessToken", token);
-      navigate("/admin")
+   
     } catch (error) {
       console.error('Error during login:', error);
       // Xử lý logic khi có lỗi trong quá trình đăng nhập hoặc lấy thông tin người dùng
     }
   };
+  useEffect(() => {
+    const localToken = sessionStorage.getItem("accessToken");
+    if (localToken) {
+      login(localToken);
+    }
+  }, []); 
+  
   const logout = () => {
     setUser(null);
     setToken(null);
     sessionStorage.clear();
+    navigate("/login");
   };
 
   const context = {

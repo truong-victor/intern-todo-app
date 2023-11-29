@@ -9,7 +9,8 @@ import { useNavigate } from "react-router";
 import { Result } from "postcss";
 import { useAuthContext } from "../../../../../@core/provider/AuthProvider";
 export const LoginForm = () => { 
-  const authContext = useAuthContext();
+  const authContext = useAuthContext(); 
+  
     const navigate = useNavigate() ; 
   const {
     control,
@@ -35,7 +36,9 @@ export const LoginForm = () => {
       authContext.login(accessToken) ; 
       console.log(result);
       toast.success("Đăng nhập thành công");
-      
+      authContext.login();
+      navigate("/admin/listproduct")
+     
       // Redirect hoặc thực hiện các hành động cần thiết sau khi đăng nhập thành công
     } catch (err) {
       toast.error("Đăng nhập thất bại");
