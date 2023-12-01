@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import { productService } from "../../../services/productService";
 import {
   CircularProgress,
-  Icon,
   IconButton,
   Pagination,
   Paper,
@@ -14,6 +13,7 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
+import { Add as AddIcon, Delete as DeleteIcon, Edit as EditIcon } from "@mui/icons-material";
 import { useNavigate } from "react-router";
 
 const ListProduct = (props) => {
@@ -39,67 +39,81 @@ const ListProduct = (props) => {
     setPaging((prev) => ({ ...prev, page }));
   };
 
+  const handleDelete = async (id) => {
+    try {
+      await productService.remove(id);
+      await fetchListData({ params: paging });
+    } catch (error) {
+      console.error(`Error deleting item with ID ${id}:`, error);
+    }
+  };
+
   return (
     <>
-      <Pagination
-        count={Math.floor(listData?.data?.totalCount / paging?.pageSize) + 1}
-        onChange={handleChangePage}
-      />
-
+      
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
-            <TableRow>
-              <TableCell>ID</TableCell>
-              <TableCell align="right">Tên sản phẩm</TableCell>
-              <TableCell align="right">Giá</TableCell>
-              <TableCell align="right">Avatar</TableCell>
-              <TableCell align="right">Ảnh chi tiết</TableCell>
-              <TableCell align="right">Mô tả</TableCell>
-              <TableCell align="right">Hành động</TableCell>
+            <TableRow sx={{ backgroundColor: "#f5f5f5" }}>
+              <TableCell sx={{ border: "1px solid #ddd", textAlign: "center" }}>
+                <strong>ID</strong>
+              </TableCell>
+              <TableCell align="center" sx={{ border: "1px solid #ddd", textAlign: "center" }}>
+                <strong>Tên sản phẩm</strong>
+              </TableCell>
+              <TableCell align="center" sx={{ border: "1px solid #ddd", textAlign: "center" }}>
+                <strong>Giá</strong>
+              </TableCell>
+              <TableCell align="center" sx={{ border: "1px solid #ddd", textAlign: "center" }}>
+                <strong>Avatar</strong>
+              </TableCell>
+              <TableCell align="center" sx={{ border: "1px solid #ddd", textAlign: "center" }}>
+                <strong>Ảnh Chi Tiết</strong>
+              </TableCell>
+              <TableCell align="center" sx={{ border: "1px solid #ddd", textAlign: "center" }}>
+                <strong>Hành động</strong>
+              </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {loadingListData ? (
-              <div className="flex w-full justify-center">
-                <CircularProgress />
-              </div>
+              <TableRow>
+                <TableCell colSpan={6} align="center">
+                  <CircularProgress />
+                </TableCell>
+              </TableRow>
             ) : (
               listData?.data?.dataTable?.map((row) => (
-                <TableRow
-                  key={row?.id}
-                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                >
-                  <TableCell component="th" scope="row">
+                <TableRow key={row?.id}>
+                  <TableCell component="th" scope="row" sx={{ border: "1px solid #ddd", textAlign: "center" }}>
                     {row?.id}
                   </TableCell>
-                  <TableCell align="right">{row?.name}</TableCell>
-                  <TableCell align="right">
-                    <div className="flex flex-col gap-4">
-                      <span className="text-[2.2rem] text-blur-600">
-                        {row?.price?.toLocaleString()}
-                      </span>
-                      <span>{row?.salePrice?.toLocaleString()}</span>
-                    </div>
+                  <TableCell align="center" sx={{ border: "1px solid #ddd", textAlign: "center" }}>
+                    {row?.name}
                   </TableCell>
-                  <TableCell align="right">
-                    <img src={row?.avatar} className="w-[60px] aspect-square" />
+                  <TableCell align="center" sx={{ border: "1px solid #ddd", textAlign: "center" }}>
+                    {row?.price?.toLocaleString()}
                   </TableCell>
-                  <TableCell align="right">1</TableCell>
-                  <TableCell align="right">
-                    {
-                      <div
-                        dangerouslySetInnerHTML={{ __html: row?.description }}
-                      ></div>
-                    }
+                  <TableCell align="center" sx={{ border: "1px solid #ddd", textAlign: "center" }}>
+                    <img src={row?.avatar} alt="" width="90" height="60" />
                   </TableCell>
-                  <TableCell align="right">
+                  <TableCell align="center" sx={{ border: "1px solid #ddd", textAlign: "center" }}>
+                    <img src={row?.avatar} alt="" width="60" height="60" />
+                  </TableCell>
+                  <TableCell align="center" sx={{ border: "1px solid #ddd", textAlign: "center" }}>
                     <IconButton
                       onClick={() => navigate(`/admin/product/${row?.id}`)}
                       color="primary"
                       size="small"
                     >
-                      sửa
+                      <EditIcon />
+                    </IconButton>
+                    <IconButton
+                      onClick={() => handleDelete(row?.id)}
+                      color="secondary"
+                      size="small"
+                    >
+                      <DeleteIcon/>
                     </IconButton>
                   </TableCell>
                 </TableRow>
@@ -108,6 +122,21 @@ const ListProduct = (props) => {
           </TableBody>
         </Table>
       </TableContainer>
+      <div style={{ display: "flex", justifyContent: "center", marginTop: "10px" }}>
+        
+        <Pagination
+          count={Math.floor(listData?.data?.totalCount / paging?.pageSize) + 1}
+          onChange={handleChangePage}
+        />
+      </div>
+      <IconButton
+        onClick={() => navigate("/admin/product/new")}
+        color="primary"
+        size="small"
+      >
+        <AddIcon /> Thêm sản phẩm
+      </IconButton>
+      
     </>
   );
 };

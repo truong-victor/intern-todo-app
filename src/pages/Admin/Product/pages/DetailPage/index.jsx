@@ -19,7 +19,6 @@ const DetailProductPage = (props) => {
 
   useEffect(() => {
     if (id === "new") {
-      //day la trang them moi
     } else {
       getDetailProduct(id);
     }

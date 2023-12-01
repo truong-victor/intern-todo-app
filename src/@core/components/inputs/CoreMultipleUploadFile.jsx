@@ -27,7 +27,6 @@ const CoreMultipleUploadFile = (props) => {
 
     try {
       const response = await fetch(
-        // "https://nguyencongclone.onrender.com/api/v1/file",
         "http://localhost:8888/api/v1/file",
         {
           headers: { "x-access-token": token },

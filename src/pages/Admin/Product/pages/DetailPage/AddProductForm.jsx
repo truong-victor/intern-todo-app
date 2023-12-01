@@ -9,7 +9,7 @@ import CoreUploadFile from "../../../../../@core/components/inputs/CoreUploadFil
 import CoreMultipleUploadFile from "../../../../../@core/components/inputs/CoreMultipleUploadFile";
 import Image from "mui-image";
 import CoreInputRichText from "../../../../../@core/components/inputs/CoreInputRichText";
-import { productService } from "../../services/productService";
+import{ productService} from "../../services/productService"
 export const AddProductForm = (props) => {
   const { initData, id } = props;
   console.log(
@@ -24,7 +24,7 @@ export const AddProductForm = (props) => {
   } = useForm({
     mode: "onTouched",
     defaultValues: {
-      id,
+      id: id !== 'new' ?id : undefined,
       name: initData?.name ?? "",
       avatar: initData?.avatar ?? "",
       price: initData?.price,
@@ -47,8 +47,8 @@ export const AddProductForm = (props) => {
   console.log("w", watch());
   const onSubmit = handleSubmit(async (data) => {
     console.log("data", data);
-    const result = await productService.save(data);
-    toast.success("Them thanh cong");
+        const result = await  productService.save(data) ;
+        toast.success("Them thanh cong");
   });
   return (
     <form
@@ -94,7 +94,7 @@ export const AddProductForm = (props) => {
         label="List Image"
         type="file"
       />
-      <CoreInputRichText
+     <CoreInputRichText
         control={control}
         name="description"
         placeholder="mo ta san pham"
