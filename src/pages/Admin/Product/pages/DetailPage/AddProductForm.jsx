@@ -10,8 +10,9 @@ import CoreMultipleUploadFile from "../../../../../@core/components/inputs/CoreM
 import Image from "mui-image";
 import CoreInputRichText from "../../../../../@core/components/inputs/CoreInputRichText";
 import { adminProductService } from "../../../services/adminProductService";
-
+import { useNavigate } from "react-router";
 export const AddProductForm = (props) => {
+  const navigate = useNavigate();
   const { initData, id } = props;
   console.log(
     "🚀 ~ file: AddProductForm.jsx:15 ~ AddProductForm ~ initData:",
@@ -29,6 +30,7 @@ export const AddProductForm = (props) => {
       name: initData?.name ?? "",
       avatar: initData?.avatar ?? "",
       price: initData?.price,
+      quantity: initData?.quantity,
       salePrice: initData?.salePrice,
       listImage: initData?.listImage ? JSON.parse(initData?.listImage) : [],
       description: initData?.description,
@@ -38,6 +40,7 @@ export const AddProductForm = (props) => {
         name: Yup.string().required().max(100),
         salePrice: Yup.number().required(),
         price: Yup.number().required(),
+        quantity: Yup.number().required(),
         avatar: Yup.string().required(),
         listImage: Yup.array().required(),
         description: Yup.string().required(),
@@ -48,8 +51,13 @@ export const AddProductForm = (props) => {
   console.log("w", watch());
   const onSubmit = handleSubmit(async (data) => {
     console.log("data", data);
-        const result = await  adminProductService.save(data) ;
-        toast.success("Them thanh cong");
+        const result = await  adminProductService.save(data) ; 
+        if (id == "new") {toast.success("Them thanh cong");
+      } 
+      else {
+        {toast.success("Sua thanh cong");       }
+      }
+      navigate("/admin/listproduct");
   });
   return (
     <form
@@ -77,6 +85,13 @@ export const AddProductForm = (props) => {
         name="price"
         placeholder="Price"
         label="Price"
+        type="number"
+      />
+       <CoreInput
+        control={control}
+        name="quantity"
+        placeholder="Quantity"
+        label="Quantity"
         type="number"
       />
       <p>Avatar</p>

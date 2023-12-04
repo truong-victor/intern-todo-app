@@ -1,24 +1,48 @@
-import { Box } from "@mui/material";
+import React, { useState } from 'react';
+import { Box, IconButton, InputAdornment, TextField, Typography } from '@mui/material';
+import SearchIcon from '@mui/icons-material/Search';
+import DesktopWindowsIcon from '@mui/icons-material/DesktopWindows';
+import CallIcon from '@mui/icons-material/Call';
+import NewspaperIcon from '@mui/icons-material/Newspaper';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 
 const Header = () => {
+  const imageList = [
+    '../../../../../public/anh1.jpg',
+    '/../../../../../public/anh2.jpg',
+    '../../../../../public/anh3.jpg',
+    '../../../../../public/anh4.jpg',
+    // Thêm các đường dẫn ảnh khác nếu cần
+  ];
+
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+  const moveLeft = () => {
+    setCurrentImageIndex((prevIndex) => (prevIndex > 0 ? prevIndex - 1 : imageList.length - 1));
+  };
+
+  const moveRight = () => {
+    setCurrentImageIndex((prevIndex) => (prevIndex < imageList.length - 1 ? prevIndex + 1 : 0));
+  };
+
   return (
     <div className="header">
-      <link
-        rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
-        integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
-        crossorigin="anonymous"
-        referrerpolicy="no-referrer"
-      />
-      <div className="bg-blue-400 w-auto h-20">
-        <div>
-          <input type="text" className="w-96 m-6 rounded" />
-          <button className="fa-solid fa-magnifying-glass">
+    
      
-          </button>
+      <img src="../../../../../public/12345.jpg" alt="Your Image" style={{borderRadius:'10px', marginLeft:'10%', width: '80%', height: '50%' }} />
+      <Box sx={{marginLeft:'145px', display: 'flex', gap: '10px', position: 'relative', overflow: 'hidden' }}>
+        <img src={imageList[currentImageIndex]} alt={`Image ${currentImageIndex + 1}`} style={{ borderRadius:'10px', width: '608px', height: '173px' }} />
+        <img src={imageList[(currentImageIndex + 1) % imageList.length]} alt={`Image ${currentImageIndex + 2}`} style={{borderRadius:'10px', width: '608px', height: '173px' }} />
+        <div style={{   position: 'absolute', top: 0, left: '5%', width: '80%', height: '50%', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <button  onClick={moveLeft}>< KeyboardArrowLeftIcon sx={{backgroundColor:'#C0C0C0'}} /></button>
+          <button onClick={moveRight}><ChevronRightIcon sx={{backgroundColor:'#C0C0C0'}}/></button>
         </div>
-      </div>
-    </div>
+      </Box>
+      
+    </div> 
   );
 };
 

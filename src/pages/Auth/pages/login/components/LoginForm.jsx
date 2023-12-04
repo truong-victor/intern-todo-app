@@ -36,7 +36,6 @@ export const LoginForm = () => {
       authContext.login(accessToken) ; 
       console.log(result);
       toast.success("Đăng nhập thành công");
-      authContext.login();
       navigate("/admin/listproduct")
      
       // Redirect hoặc thực hiện các hành động cần thiết sau khi đăng nhập thành công

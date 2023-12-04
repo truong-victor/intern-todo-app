@@ -4,7 +4,7 @@ export class BaseService {
   BASE_URL =
     process.env.NODE_ENV === "development"
       ? "https://nguyencongclone.onrender.com"
-        // "http://localhost:8888"
+      //  ? "http://localhost:8888"
       : "";
   BASE_ENDPOINT = "";
   constructor(endpoint) {

@@ -2,6 +2,7 @@ import { createContext, useContext, useState } from "react";
 import { authService } from "../../pages/Auth/services/authService";
 import { useNavigate } from "react-router";
 import { useEffect } from "react";
+
 const AuthContext = createContext();
 
 export const useAuthContext = () => useContext(AuthContext);
@@ -25,7 +26,9 @@ const AuthProvider = (props) => {
   
       // Lưu token vào sessionStorage
       sessionStorage.setItem("accessToken", token);
-   
+      if (window.location.pathname === "/login") {
+        navigate("/admin/listproduct");
+      }
     } catch (error) {
       console.error('Error during login:', error);
       // Xử lý logic khi có lỗi trong quá trình đăng nhập hoặc lấy thông tin người dùng
