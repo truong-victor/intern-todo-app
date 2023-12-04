@@ -1,7 +1,6 @@
 import { Box } from "@mui/material";
 import Header from "./components/Header";
 import NavBar from "./components/NavBar";
-import { useAuthContext } from "../../provider/AuthProvider";
 import { Navigate } from "react-router";
 
 const AdminLayout = (props) => {
@@ -12,12 +11,11 @@ const AdminLayout = (props) => {
   }
 
   return (
-    <Box className="relative flex flex-col">
-      <Header />
-
-      <Box className="flex ">
-        <NavBar />
-        <Box className="w-full">{props.children}</Box>
+    <Box className="relative flex ">
+      <NavBar />
+      <Box className="flex flex-col w-full">
+        <Header />
+        <Box className="w-full px-6 py-8 bg-[#e7e4e4]">{props.children}</Box>
       </Box>
     </Box>
   );

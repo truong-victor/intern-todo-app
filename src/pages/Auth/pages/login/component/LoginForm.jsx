@@ -30,6 +30,7 @@ export const LoginForm = (props) => {
   const onSubmit = handleSubmit(async (data) => {
     const response = await authService.login(data);
     sessionStorage.setItem("accessToken", response?.data?.accessToken);
+    
     await login();
   });
 

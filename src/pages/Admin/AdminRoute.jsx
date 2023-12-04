@@ -1,5 +1,4 @@
 import React, { Suspense } from "react";
-import useAuthContext from "../../@core/provider/AuthProvider";
 import { CircularProgress } from "@mui/material";
 const LazyListProductPage = React.lazy(() =>
   import("./Product/pages/ListPage")
@@ -7,7 +6,6 @@ const LazyListProductPage = React.lazy(() =>
 const LazyDetailProductPage = React.lazy(() =>
   import("./Product/pages/DetailPage")
 );
-const LazyHomePage = React.lazy(() => import("./Product/pages/home"));
 
 export const adminRoute = [
   {
@@ -18,8 +16,5 @@ export const adminRoute = [
     path: "/admin/product/:id",
     component: <LazyDetailProductPage />,
   },
-  {
-    path: "/Admin/home",
-    component: <LazyHomePage />,
-  },
+
 ];

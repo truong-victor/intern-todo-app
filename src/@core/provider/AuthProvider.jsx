@@ -16,11 +16,10 @@ const AuthProvider = (props) => {
   const login = async () => {
     try {
       const userInfo = await authService.getInfo();
-      setUser(userInfo?.data);
-      console.log(userInfo);
       if (window.location.pathname === "/login") {
-        navigate("/admin/home");
+        navigate("/admin/product");
       }
+      setUser(userInfo?.data);
     } catch (error) {
       toast.error("Vui lofng dang nhap");
       navigate("/login");
@@ -35,11 +34,13 @@ const AuthProvider = (props) => {
   }, []);
 
   const logout = () => {
+    navigate("/");
     setUser(null);
     setToken(null);
     sessionStorage.clear();
   };
 
+  
   const context = {
     token,
     setToken,

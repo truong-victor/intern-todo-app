@@ -20,11 +20,11 @@ const ListProduct = (props) => {
   const navigate = useNavigate();
   const [paging, setPaging] = useState({
     page: 1,
-    pageSize: 10,
+    pageSize: 5,
   });
 
   const {
-    data: listData,
+    data: listData, 
     loading: loadingListData,
     run: fetchListData,
   } = useRequest(productService.search, {
@@ -34,11 +34,15 @@ const ListProduct = (props) => {
   useEffect(() => {
     fetchListData({ params: paging });
   }, [JSON.stringify(paging)]);
-
+  
   const handleChangePage = (_, page) => {
     setPaging((prev) => ({ ...prev, page }));
   };
 
+  const deleteProduct = async (id) =>{
+    await productService.remove(id);
+    fetchListData({ params: paging });
+  }
   return (
     <>
       <Pagination
@@ -46,12 +50,14 @@ const ListProduct = (props) => {
         onChange={handleChangePage}
       />
 
-      <TableContainer component={Paper}>
+      <TableContainer component={Paper} className="p-4">
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow>
               <TableCell>ID</TableCell>
-              <TableCell align="right">Tên sản phẩm</TableCell>
+              <TableCell sx={{ width: "230px" }} align="right">
+                Tên sản phẩm
+              </TableCell>
               <TableCell align="right">Giá</TableCell>
               <TableCell align="right">Avatar</TableCell>
               <TableCell align="right">Ảnh chi tiết</TableCell>
@@ -94,13 +100,18 @@ const ListProduct = (props) => {
                     }
                   </TableCell>
                   <TableCell align="right">
-                    <IconButton
+                    <button
                       onClick={() => navigate(`/admin/product/${row?.id}`)}
-                      color="primary"
-                      size="small"
+                      className="border-2 bg-green-500 px-2 py-0.5 text-white"
                     >
-                      sửa
-                    </IconButton>
+                      EDIT
+                    </button>
+                    <button
+                      onClick={() => deleteProduct(row?.id)}
+                      className="border-2 bg-red-500 px-2 py-0.5 text-white"
+                    >
+                      DELETE
+                    </button>
                   </TableCell>
                 </TableRow>
               ))

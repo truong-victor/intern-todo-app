@@ -19,6 +19,7 @@ export class BaseService {
   responseInterceptor = (result, status) => {
     if (status === 403 || status === 401) {
       //user not auth
+      sessionStorage.clear()
       window.location.assign("/404");
     }
 

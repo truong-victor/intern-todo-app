@@ -10,7 +10,10 @@ import CoreMultipleUploadFile from "../../../../../@core/components/inputs/CoreM
 import Image from "mui-image";
 import CoreInputRichText from "../../../../../@core/components/inputs/CoreInputRichText";
 import { productService } from "../../services/productService";
+
+import { useNavigate } from "react-router";
 export const AddProductForm = (props) => {
+  const navigate= useNavigate();
   const { initData, id } = props;
   console.log(
     "🚀 ~ file: AddProductForm.jsx:15 ~ AddProductForm ~ initData:",
@@ -24,7 +27,7 @@ export const AddProductForm = (props) => {
   } = useForm({
     mode: "onTouched",
     defaultValues: {
-      id,
+      id : id !== 'new' ? id : undefined,
       name: initData?.name ?? "",
       avatar: initData?.avatar ?? "",
       price: initData?.price,
@@ -44,11 +47,11 @@ export const AddProductForm = (props) => {
     ),
   });
 
-  console.log("w", watch());
   const onSubmit = handleSubmit(async (data) => {
     console.log("data", data);
     const result = await productService.save(data);
-    toast.success("Them thanh cong");
+    toast.success(`${id !== "new" ? "EDIT PRODUCT" : "ADD PRODUCT"} SUCCESSFULLY`);
+    navigate('/admin/product');
   });
   return (
     <form
@@ -56,7 +59,7 @@ export const AddProductForm = (props) => {
       onSubmit={onSubmit}
     >
       <h1 className="font-bold text-xl text-blue-500 text-center">
-        {id !== "new" ? "Sua" : "them"}
+        {id !== "new" ? "EDIT PRODUCT" : "ADD PRODUCT"}
       </h1>
       <CoreInput
         control={control}
@@ -77,6 +80,7 @@ export const AddProductForm = (props) => {
         placeholder="Price"
         label="Price"
         type="number"
+        
       />
       <p>Avatar</p>
       <CoreUploadFile
@@ -102,6 +106,7 @@ export const AddProductForm = (props) => {
       />
 
       <LoadingButton
+        
         disabled={!isDirty}
         loading={isSubmitting}
         type="submit"
