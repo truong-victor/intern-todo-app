@@ -1,27 +1,26 @@
 
 
 import React, { useEffect, useState } from 'react';
-import { useCartContext } from '../../provider/CartProvider';
 // import './CustomNumberInput.css'; // Import your styles (if using external styles)
  
-function CoreNumberInput(props) {
-  const {purchaseQuantity, setPurchaseQuantity } = props
-  const [value, setValue] = useState(1);
+function CartNumberInput(props) {
+    const {setNewQuantity, purchaseQuantity} = props;
+  const [value, setValue] = useState(purchaseQuantity);
 
-  console.log(purchaseQuantity)
   const decrement = () => {
     setValue(prevValue => Math.max(prevValue - 1, 0));
-  };
+};
 
-  const increment = () => {
+const increment = () => {
     setValue(prevValue => prevValue + 1);
-  };
+    
+};
+useEffect(()=>{
 
- 
-  useEffect(()=>{
-      setPurchaseQuantity(value)
-   
-  }, [value])
+    setNewQuantity(value)
+},[value])
+
+
 
   return (
     <div className="custom-number-input h-10 w-32">
@@ -61,4 +60,4 @@ function CoreNumberInput(props) {
   );
 }
 
-export default CoreNumberInput;
+export default CartNumberInput;

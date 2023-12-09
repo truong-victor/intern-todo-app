@@ -5,31 +5,26 @@ const CartContext = createContext();
 export const useCartContext = () => useContext(CartContext);
 
 function CartProvider(props) {
-  const [quantityItem, setQuantityItem] = useState(1);
-  const [cartItems, setCartItems] = useState([]);
+  const cartLocal = localStorage.getItem('cart')
+  const [cartItems, setCartItems] = useState(JSON.parse(cartLocal));
   console.log(cartItems);
   
-  const handleAddToCart = (clickedItem,quantityItem) => {
-    setCartItems((prev) => {
-      const isItemInCart = prev.find((item) => item.id === clickedItem.id);
-      if (isItemInCart) {
-        alert('Da co trong gio hang');
-        return prev.map((item) =>
-          item.id === clickedItem.id
-            ? { ...item, quantity: quantityItem }
-            : item
-        );
-      }
-
-      return [...prev, { ...clickedItem, quantity: quantityItem}];
-    });
+  const addToCart = (clickedItem) => {
+    setCartItems((prev) => [...prev, clickedItem]);
   };
 
+  
+
+  useEffect(()=>{
+    localStorage.setItem('cart', JSON.stringify(cartItems))
+  }, [JSON.stringify(cartItems)])
+
   const context = {
-    quantityItem,
-    setQuantityItem,
+    // quantityItem,
+    // setQuantityItem,
     cartItems,
-    handleAddToCart,
+    setCartItems,
+    addToCart,
     ...props,
   };
   return (

@@ -1,18 +1,26 @@
-import CoreNumberInput  from '../../../@core/components/inputs/CoreNumberInput'
+import { useState } from 'react';
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
+import { Navigate } from 'react-router';
+import CartNumberInput from './CartNumberInput';
 function CartItem(props){
     const {item} = props;
+    const [newQuantity, setNewQuantity] = useState(item?.purchaseQuantity);
+    const handleNewQuantity = (e)=>{
+      console.log(e.target.value)
+      setNewQuantity(e.target.value)      
+    }
     return (
       <div className="py-[18px] flex justify-between border-b-[1px] border-gray-500">
-        <img className="w-[120px]" src={item?.avatar} alt="" />
+        <img onClick={Navigate(`/product/${item?.id}`)} className="w-[120px]" src={item?.avatar} alt="" />
         <h2 className="w-1/2 px-[30px]">{item?.name}</h2>
         <div className="w-[140px]">
-          <CoreNumberInput quantity={item.quantity} />
+          <CartNumberInput newQuantity={newQuantity} setNewQuantity={setNewQuantity} purchaseQuantity = {item?.purchaseQuantity}/>
+          {/* <input min={1} step={1} type="number" defaultValue={item.purchaseQuantity} onChange={(e) => handleNewQuantity(e)}/> */}
         </div>
         <div className="w-[200px] flex flex-col items-end justify-between left_cartItem">
           <div>
             <p className="text-[red] font-semibold">
-              {item?.salePrice.toLocaleString()}
+              {(item?.salePrice * (newQuantity ? newQuantity : item.purchaseQuantity)).toLocaleString() }
             </p>
             <p className="line-through text-[grey]">
               {item?.price.toLocaleString()}

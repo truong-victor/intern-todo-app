@@ -4,7 +4,8 @@ import { useEffect } from "react";
 
 import { Link } from "react-router-dom";
 function CartList(){
-    const {cartItems}= useCartContext();
+    // const {cartItems}= useCartContext();
+    const cartItems = JSON.parse(localStorage.getItem('cart'))
     useEffect(()=>{
         console.log(cartItems);
     },[cartItems])

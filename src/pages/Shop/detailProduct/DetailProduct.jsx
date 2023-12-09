@@ -5,12 +5,14 @@ import AsNavFor from "./Carousel";
 import CoreNumberInput from "../../../@core/components/inputs/CoreNumberInput";
 import RedeemIcon from "@mui/icons-material/Redeem";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
+import { CleaningServices } from "@mui/icons-material";
 function DetailProduct(props) {
   const { detailProductData } = props;
-  const { cartItems, handleAddToCart, quantityItem, setQuantityItem } = useCartContext();
-  // const [quantityItem,setQuantityItem] = useState(1)
+  const { cartItems,setCartItems, addToCart } = useCartContext();
+
+  const [purchaseQuantity, setPurchaseQuantity] = useState(1)
+
   
-  console.log(quantityItem);
   const backgroundImageStyle = {
     backgroundImage:
       "url('/public/images/product/background_offer_detail.png')",
@@ -25,8 +27,26 @@ function DetailProduct(props) {
     return [];
   }, [JSON.stringify(detailProductData)]);
 
-  const  onAddToCart = (detailProductData,quantityItem)=>{
-    handleAddToCart(detailProductData,quantityItem)
+  const  handleAddToCart = ()=>{
+    const existedItem = cartItems.find((item) => item?.id === detailProductData?.id)
+    if(!existedItem) {
+      if(purchaseQuantity >= detailProductData?.quantity){
+        addToCart({...detailProductData, purchaseQuantity: purchaseQuantity})
+      }
+    } 
+    else{
+
+      const newPurchaseQuantity = existedItem.purchaseQuantity + purchaseQuantity;
+        const newCartItems = cartItems.map((item) =>{
+          if(item.id == existedItem.id){
+            return {...item, purchaseQuantity: newPurchaseQuantity}
+          } return item;
+        })
+
+        setCartItems(newCartItems);
+
+    }
+
   }
   return (
     <div className="flex justify-between bg-[#fff] mt-8 mb-8">
@@ -84,9 +104,9 @@ function DetailProduct(props) {
 
         <div className="product_addToCartBtns flex items-center mt-4">
           <p className="mr-3">Số lượng:</p>
-          <CoreNumberInput setQuantityItem={setQuantityItem} />
+          <CoreNumberInput purchaseQuantity = {purchaseQuantity} setPurchaseQuantity = {setPurchaseQuantity}  />
           <a
-            onClick={() => onAddToCart(detailProductData, quantityItem)}
+            onClick={handleAddToCart}
             className="flex p-2 ml-3 border border-blue-500 border-solid rounded-md text-[#0a76e4] hover:bg-blue-500 hover:text-white hover:cursor-pointer"
           >
             <ShoppingCartOutlinedIcon />
