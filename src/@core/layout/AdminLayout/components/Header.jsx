@@ -16,7 +16,7 @@ const Header = () => {
     logout();
   };
   return (
-    <Box sx={{ flexGrow: 1 }}>
+    <Box sx={{  zIndex: 2, flexGrow: 1  }}>
       <AppBar position="static">
         <Toolbar>
           <IconButton

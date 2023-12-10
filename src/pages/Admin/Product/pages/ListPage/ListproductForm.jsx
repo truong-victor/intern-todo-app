@@ -24,6 +24,7 @@ function ListproductForm() {
   });
 
   useEffect(() => {
+    console.log('List Data:', listData?.data);
     fetchListData({ params: paging });
   }, [JSON.stringify(paging)]);
 

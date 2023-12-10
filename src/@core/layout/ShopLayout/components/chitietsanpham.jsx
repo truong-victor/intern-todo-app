@@ -7,9 +7,49 @@ import AddIcon from '@mui/icons-material/Add';
 import { shopProductService } from '../../../../pages/Shop/services/shopProductService';
 import NavBar from './NavBar';
 import {IconButton} from '@mui/material';
-
+import useLocalStorage from './../hooks/useLocalStorage';
+import { useNavigate } from 'react-router';
+import { toast } from 'react-toastify';
 function ChitietSanpham() {
+   const navigate = useNavigate() ; 
   const { id } = useParams();
+  const [cart , setCart] = useLocalStorage({
+    key: "Cart" ,
+    initValue: [{id:id,quantity:1}] ,  
+  }) ; 
+  const handleAddCart = () => {
+    const ProductIndex = cart.findIndex(item => item.id === id);
+  
+    if (ProductIndex !== -1) {
+      // Sản phẩm đã tồn tại trong giỏ hàng, cập nhật số lượng
+      const updatedCart = [...cart];
+      updatedCart[ProductIndex].quantity += quantity;
+        if (updatedCart[ProductIndex].quantity > detailProduct.quantity) {
+        // Hiển thị thông báo (toast) nếu số lượng không phù hợp
+        toast.error('Số lượng không phù hợp', {
+          position: toast.POSITION.TOP_CENTER,
+        });
+        return; // Dừng thực hiện tiếp theo nếu số lượng không phù hợp
+      }
+  
+      setCart(updatedCart);
+    } else {
+      const newProduct = {
+        id: id,
+        quantity: quantity,
+      };
+        if (newProduct.quantity > detailProduct.quantity) {
+        toast.error('Số lượng không phù hợp', {
+          position: toast.POSITION.TOP_CENTER,
+        });
+        return; // Dừng thực hiện tiếp theo nếu số lượng không phù hợp
+      }
+  
+      setCart(prev => [...prev, newProduct]);
+    }
+  };
+  
+  console.log(cart)
   const [detailProduct, setDetailProduct] = useState(null);
   const [selectedImage, setSelectedImage] = useState(null);
   const [listImages, setListImages] = useState([]);
@@ -158,6 +198,8 @@ function ChitietSanpham() {
                   </Box>
 
                   <Box
+                    onClick={handleAddCart}
+              
                     sx={{
                       marginLeft: '10px',
                       fontFamily: 'inherit',
@@ -172,10 +214,9 @@ function ChitietSanpham() {
                   > 
                 
                     <ShoppingCartIcon />
-                    <Typography variant="p">
+                    <Typography variant="p"> 
                       Thêm Vào Giỏ Hàng
                     </Typography>
-                 
                   </Box>
                 </Box>
               </>
