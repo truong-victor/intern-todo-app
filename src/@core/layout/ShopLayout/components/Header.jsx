@@ -24,9 +24,12 @@ function Header(){
         <Image
           fit="contain"
           width={170}
-          className=""
+          className="hover:cursor-pointer"
           src="/images/logo_2023.png"
           alt="Logo"
+          onClick={() => {
+            navigate("/");
+          }}
         />
         <LocationOnIcon
           fontSize="large"
@@ -93,7 +96,7 @@ function Header(){
           aria-label="show 17 new notifications"
           className="flex flex-col"
         >
-          <Badge badgeContent={cartItems.length} color="error">
+          <Badge badgeContent={cartItems?.length} color="error">
             <ShoppingCartIcon className="text-white" />
           </Badge>
           <span className="text-xs text-white font-medium">Giỏ Hàng</span>

@@ -1,4 +1,5 @@
-import UnstyledSelectRichOptions from "./components/SelectCity";
+import SelectCity from "./components/SelectCity";
+import SelectDistrict from "./components/SelectDistrict";
 import CoreInputRichText from "../../../@core/components/inputs/CoreInputRichText";
 import { useState } from "react";
 import { Box} from "@mui/material";
@@ -12,23 +13,45 @@ import { Link, useNavigate } from "react-router-dom";
 
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
+import { useCartContext } from "../../../@core/provider/CartProvider";
+import CoreInput from "../../../@core/components/inputs/CoreInput";
 function CheckoutForm(){
+    const {totalPrice} = useCartContext()
     const [loading, setLoading] = useState(true);
     const schema = yup.object().shape({
-      firstName: yup.string().min(2).max(7).required(),
-      lastName: yup.string().min(2).max(7).required(),
+      name: yup.string().required(),
+      phoneNumber: yup.string().required(),
       email: yup.string().email().required(),
-      password: yup.string().min(8).max(20).required(),
+      address: yup.string().required(),
+      selectCity: yup.string().required(),
+      selectDistrict: yup.string().required(),
+      note: yup.string(),
+
+      
     });
     const {
+      control,
+      watch,
       register,
       handleSubmit,
       formState: { errors },
     } = useForm({
       mode: "onChange",
       resolver: yupResolver(schema),
+      defaultValues: {
+        selectCity: '',
+        selectDistrict: '',
+      }
     }); 
+
+    console.log("current form value", watch())
+
+    const onSubmit =  handleSubmit((data)=>{
+      alert('tes')
+      console.log(data)
+    })
+
     return (
       <div className="bg-white p-4 w-[80%] m-auto">
         <h2 className="font-[26px] font-bold text-blue-500">
@@ -37,81 +60,59 @@ function CheckoutForm(){
         </h2>
         <Box
           component="form"
-          //   onSubmit={handleSubmit(handleDataRegister)}
+            onSubmit={onSubmit}
           sx={{ mt: 3 }}
         >
           <Grid container spacing={2}>
             <Grid item xs={12}>
-              <TextField
-                {...register("name")}
-                fullWidth
-                id="name"
-                label="Họ tên"
+              <CoreInput
+                control={control}
                 name="name"
+                placeholder="Điền tên của bạn"
+                label="Họ và tên"
               />
-              <Typography
-                sx={{ color: "red", fontSize: "14px", marginTop: "10px" }}
-              >
-                {errors?.email?.message}
-              </Typography>
             </Grid>
             <Grid item xs={12} sm={6}>
-              <TextField
-                {...register("phoneNumber")}
+              <CoreInput
+                control={control}
                 name="phoneNumber"
-                fullWidth
-                id="phoneNumber"
-                label="Số điện thoại"
+                placeholder="Điện thoại"
+                label="Điện thoại"
               />
-              <Typography
-                sx={{ color: "red", fontSize: "14px", marginTop: "10px" }}
-              >
-                {errors?.firstName?.message}
-              </Typography>
             </Grid>
             <Grid item xs={12} sm={6}>
-              <TextField
-                {...register("email")}
-                fullWidth
-                id="email"
-                label="Email"
+              <CoreInput
+                control={control}
                 name="email"
+                placeholder="Email"
+                label="Email"
               />
-              <Typography
-                sx={{ color: "red", fontSize: "14px", marginTop: "10px" }}
-              >
-                {errors?.lastName?.message}
-              </Typography>
             </Grid>
             <Grid item xs={12}>
-              <TextField
-                {...register("address")}
-                fullWidth
-                id="address"
-                label="Địa chỉ"
+              <CoreInput
+                control={control}
                 name="address"
+                placeholder="Địa chỉ"
+                label="Địa chỉ"
               />
-              <Typography
-                sx={{ color: "red", fontSize: "14px", marginTop: "10px" }}
-              >
-                {errors?.email?.message}
-              </Typography>
             </Grid>
 
-            <Grid item xs={12} sm={6} fullWidth>
-              <UnstyledSelectRichOptions />
+            <Grid item xs={12} sm={6}>
+              <SelectCity name="selectCity"
+                control={control}/>
             </Grid>
             <Grid item xs={12} sm={6}>
-              <UnstyledSelectRichOptions />
+              <SelectDistrict name="selectDistrict"
+                control={control} provinceId={watch("selectCity")}/>
             </Grid>
             <Grid item xs={12}>
               <TextField
-                {...register("password")}
+                {...register("note")}
                 fullWidth
-                name="password"
+                name="note"
                 label="Ghi chu"
-                type="password"
-                id="password"
+                type="note"
+                id="note"
               />
               <Typography
                 sx={{ color: "red", fontSize: "14px", marginTop: "10px" }}
@@ -138,11 +139,11 @@ function CheckoutForm(){
           </h2>
           <div className="flex justify-between ">
             <h3>Tổng cộng</h3>
-            <h2 className="font-normal text-[19px]">350000000</h2>
+            <h2 className="font-normal text-[19px]">{totalPrice.toLocaleString()}</h2>
           </div>
           <div className="flex justify-between ">
             <h3>Thành tiền</h3>
-            <h2 className="font-medium text-[22px] text-red-600">350000000</h2>
+            <h2 className="font-medium text-[22px] text-red-600">{totalPrice.toLocaleString()}</h2>
           </div>
 
           <Button
@@ -153,13 +154,6 @@ function CheckoutForm(){
           >
             ĐẶT HÀNG
           </Button>
-          {/* <Grid container justifyContent="flex-end">
-            <Grid item>
-              <Link to="/login" variant="body2">
-                Already have an account? Sign in
-              </Link>
-            </Grid>
-          </Grid> */}
         </Box>
       </div>
     );

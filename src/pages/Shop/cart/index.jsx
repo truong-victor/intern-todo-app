@@ -1,8 +1,10 @@
 import ShopLayout from "../../../@core/layout/ShopLayout";
+import CustomSeparator from "../../../@core/layout/ShopLayout/components/BreadCrumbs";
 // import CartItem from "./CartItem"
 import CartList from "./CartList";
 import CheckoutForm from "./CheckoutForm";
 import { Link } from "react-router-dom";
+
 function CartPage() {
   return (
     <ShopLayout>

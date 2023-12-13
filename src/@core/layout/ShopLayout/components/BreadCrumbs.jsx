@@ -17,24 +17,15 @@ export default function CustomSeparator() {
       key="1"
       color="inherit"
       href="/"
-      onClick={handleClick}
+      onClick={() => navigate('/')}
     >
-      MUI
-    </Link>,
-    <Link
-      underline="hover"
-      key="2"
-      color="inherit"
-      href="/material-ui/getting-started/installation/"
-      onClick={handleClick}
-    >
-      Core
+      Trang chủ
     </Link>,
     <Typography key="3" color="text.primary">
-      Breadcrumb
+      Giỏ hàng
     </Typography>,
   ];
-
+    
   return (
     <Stack spacing={2} className="px-[150px] py-3">
       <Breadcrumbs

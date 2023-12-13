@@ -4,7 +4,7 @@ function FixedBanner(){
         <div className="fixed-left z-[10] fixed top-[200px]">
           <img
             className="w-[140px] rounded-xl "
-            src="/public/images/home/fixed-left.jpg"
+            src="/images/home/fixed-left.jpg"
             alt=""
           />
         </div>
@@ -12,7 +12,7 @@ function FixedBanner(){
         <div className="fixed-right z-[10] fixed top-[200px] right-0">
           <img
             className="w-[140px] rounded-xl"
-            src="/public/images/home//fixed-right.webp"
+            src="/images/home//fixed-right.webp"
             alt=""
           />
         </div>

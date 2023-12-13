@@ -12,6 +12,7 @@ function DetailProduct(props) {
 
   const [purchaseQuantity, setPurchaseQuantity] = useState(1)
 
+  console.log(cartItems)
   
   const backgroundImageStyle = {
     backgroundImage:
@@ -28,11 +29,9 @@ function DetailProduct(props) {
   }, [JSON.stringify(detailProductData)]);
 
   const  handleAddToCart = ()=>{
-    const existedItem = cartItems.find((item) => item?.id === detailProductData?.id)
+    const existedItem = cartItems?.find((item) => item?.id === detailProductData?.id)
     if(!existedItem) {
-      if(purchaseQuantity >= detailProductData?.quantity){
-        addToCart({...detailProductData, purchaseQuantity: purchaseQuantity})
-      }
+        addToCart({...detailProductData, purchaseQuantity: purchaseQuantity, checked: false})
     } 
     else{
 
@@ -48,6 +47,8 @@ function DetailProduct(props) {
     }
 
   }
+
+  
   return (
     <div className="flex justify-between bg-[#fff] mt-8 mb-8">
       <div className="w-1/2">

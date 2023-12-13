@@ -1,13 +1,15 @@
 
 const Footer = () => {
   return (
-    <div className="mt-[30px] py-[40px] ">
+    <div className="mt-[30px] pt-[40px] ">
       <div className="flex justify-between px-[120px] py-[40px]">
         <ul>
           <h5 className="font-semibold text-14 mb-4">GIỚI THIỆU NGUYỄN CÔNG</h5>
           <li className="font-normal text-13">Giới thiệu công ty</li>
-          <li className="font-normal text-13">Giới thiệu công ty</li>
-          <li className="font-normal text-13">Giới thiệu công ty</li>
+          <li className="font-normal text-13">Thông tin liên hệ</li>
+          <li className="font-normal text-13">Tin Tức</li>
+          <li className="font-normal text-13">Tuyển dụng</li>
+          <li className="font-normal text-13">Hệ thống cửa hàng</li>
 
           <div id="socialNet">
             <a href="">
@@ -30,10 +32,10 @@ const Footer = () => {
           <li className="font-normal text-13">Chính sách nhập lại tính phíh</li>
         </ul>
         <ul>
-          <h5 className="font-semibold text-14 mb-5">GIỚI THIỆU NGUYỄN CÔNG</h5>
-          <li className="font-normal text-13">Giới thiệu công ty</li>
-          <li className="font-normal text-13">Giới thiệu công ty</li>
-          <li className="font-normal text-13">Giới thiệu công ty</li>
+          <h5 className="font-semibold text-14 mb-5">THÔNG TIN KHUYẾN MẠI</h5>
+          <li className="font-normal text-13">Thông tin khuyến mại</li>
+          <li className="font-normal text-13">Sản phẩm khuyến maị</li>
+          <li className="font-normal text-13">Sản phẩm bán chạy</li>
         </ul>
       </div>
 
