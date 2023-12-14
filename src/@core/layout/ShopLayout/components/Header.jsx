@@ -1,5 +1,5 @@
 import { useCartContext } from '../../../provider/CartProvider';
-
+import MenuIcon from '@mui/icons-material/Menu';
 import Image from 'mui-image'
 import {MenuItem} from '@mui/material';
 import {Badge} from '@mui/material';
@@ -20,34 +20,39 @@ function Header(){
     const {cartItems} = useCartContext()
     const navigate = useNavigate()
     return (
-      <Box className="w-full h-[60px] px-[150px] flex items-center justify-between bg-[#0f5b99]">
-        <Image
-          fit="contain"
-          width={170}
-          className="hover:cursor-pointer"
-          src="/images/logo_2023.png"
-          alt="Logo"
-          onClick={() => {
-            navigate("/");
-          }}
-        />
+      <Box className="p-3 w-full h-[60px] lg:px-[150px] lg:flex-nowrap flex items-center justify-between bg-[#0f5b99]">
+        <MenuIcon sx={{"@media screen and (min-width:1024px)": {display: 'none'}}}/>
+          <Image
+            fit="contain"
+            width={340}
+            className="order-1 hover:cursor-pointer"
+            src="/images/logo_2023.png"
+            alt="Logo"
+            onClick={() => {
+              navigate("/");
+            }}
+          />
+
         <LocationOnIcon
+          sx={{display: 'none',"@media screen and (min-width:1024px)": {display: 'block'},}}
           fontSize="large"
-          className="ml-8 p-[6px] border-white border-2 rounded-full text-white "
+          className="order-2 lg:block lg:ml-8 lg:p-[6px] lg:border-white lg:border-2 lg:rounded-full lg:text-white "
         />
         <Paper
           component="form"
           sx={{
+            display:"none",
             p: "2px 4px",
-            display: "flex",
             alignItems: "center",
-            width: 430,
+            width: '100%',
             height: 40,
-            marginLeft: "10px",
+            order: 8,
+            "@media screen and (min-width:1024px)": {order: 3, display: 'flex'},
           }}
+          className='w-[430px] lg:ml-2'
         >
           <InputBase
-            sx={{ ml: 1, flex: 1 }}
+            sx={{ ml: 1, flex: 1, }}
             placeholder="Search Google Maps"
             inputProps={{ "aria-label": "search google maps" }}
           />
@@ -55,22 +60,23 @@ function Header(){
             <SearchIcon />
           </IconButton>
         </Paper>
+
         <IconButton
-          className="flex flex-col"
           type="button"
-          sx={{ p: "10px" }}
+          sx={{ p: "10px", display: 'none ',"@media screen and (min-width:1024px)": {display: 'flex'} }}
+          className=" lg:flex-col order-4"
           aria-label="search"
         >
           <ComputerIcon className="text-white" />
-          <span className="text-xs text-white font-medium">
+          <span className="w-[80px] lg:w-full text-sm lg:text-xs text-white lg:font-medium">
             Xây dựng cấu hình
           </span>
         </IconButton>
         <IconButton
-          className="flex flex-col"
           type="button"
-          sx={{ p: "10px" }}
+          sx={{ p: "10px", display: 'none',"@media screen and (min-width:1024px)": {display: 'flex'}, }}
           aria-label="search"
+          className="lg:flex lg:flex-col order-5"
         >
           <PhoneIcon className="text-white" />
           <span className="text-xs text-white font-medium">
@@ -78,9 +84,9 @@ function Header(){
           </span>
         </IconButton>
         <IconButton
-          className="flex flex-col"
+          className="lg:flex lg:flex-col order-6"
           type="button"
-          sx={{ p: "10px" }}
+          sx={{ p: "10px",display: 'none',"@media screen and (min-width:1024px)": {display: 'flex'}, }}
           aria-label="search"
         >
           <NewspaperIcon className="text-white" />
@@ -94,7 +100,7 @@ function Header(){
           }}
           size="large"
           aria-label="show 17 new notifications"
-          className="flex flex-col"
+          className="flex flex-col order-7"
         >
           <Badge badgeContent={cartItems?.length} color="error">
             <ShoppingCartIcon className="text-white" />
@@ -105,9 +111,9 @@ function Header(){
           onClick={() => {
             navigate("/login");
           }}
-          className="flex flex-col"
+          className="flex flex-col order-8"
           type="button"
-          sx={{ p: "10px" }}
+          sx={{ p: "10px",display: 'none',"@media screen and (min-width:1024px)": {display: 'flex'}, }}
           aria-label="search"
         >
           <AccountCircleIcon className="text-white" />
