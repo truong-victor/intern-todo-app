@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { DataGrid } from '@mui/x-data-grid';
-import { Box } from '@mui/material';
 import { shopProductService } from '../../../../../src/pages/Shop/services/shopProductService';
-import {Button} from '@mui/material';
+import { Box, Button, Typography } from '@mui/material';
+import {IconButton} from '@mui/material';
+import RemoveIcon from '@mui/icons-material/Remove';
+import AddIcon from '@mui/icons-material/Add';
+import { toast } from 'react-toastify';
 function CartItem() {
 
   const [listData, setListData] = useState([]);
@@ -20,7 +23,7 @@ function CartItem() {
         const results = await Promise.all(idsArray.map(idItem => shopProductService.find(idItem)));
         // Xử lý kết quả, nếu cần
         const productData = results.map(result => result.data);
-        setListData(productData);       
+        setListData(productData);      
         console.log('All product details:', results);
       } catch (error) {
         console.error('Error fetching product details:', error);
@@ -30,7 +33,51 @@ function CartItem() {
     // Gọi hàm fetchAllProducts
     fetchAllProducts();
   }, []);
-console.log(listData);
+console.log('567cm',listData);
+
+
+
+const handleIncrementCartItem = (cartItem) => {
+  const product = listData.find(item => String(item.id) === String(cartItem.id));
+
+  if (product && cartItem.quantity < product.quantity) {
+    const updatedCart = cartData.map(item =>
+      item.id === cartItem.id ? { ...item, quantity: item.quantity + 1 } : item
+    );
+
+    localStorage.setItem('Cart', JSON.stringify(updatedCart));
+    setListData(prevListData =>
+      prevListData.map(item =>
+        item.id === cartItem.id ? { ...item, quantity: item.quantity + 1 } : item
+      )
+    );
+  } else {
+    toast.error('Số lượng không phù hợp', {
+      position: toast.POSITION.TOP_CENTER,
+    });
+  }
+};
+
+const handleDecrementCartItem = (cartItem) => {
+  const product = listData.find(item => String(item.id) === String(cartItem.id));
+
+  if (product && cartItem.quantity > 1) {
+    const updatedCart = cartData.map(item =>
+      item.id === cartItem.id ? { ...item, quantity: item.quantity - 1 } : item
+    );
+
+    localStorage.setItem('Cart', JSON.stringify(updatedCart));
+    setListData(prevListData =>
+      prevListData.map(item =>
+        item.id === cartItem.id ? { ...item, quantity: item.quantity - 1 } : item
+      )
+    );
+  }
+};
+
+
+
+
 const handleRemoveItem = (id) => {
   // Xóa sản phẩm có id tương ứng từ giỏ hàng
   const updatedCart = cartData.filter(item => String(item.id) !== String(id));
@@ -41,10 +88,24 @@ const handleRemoveItem = (id) => {
   // Cập nhật state để render lại component
   setListData(updatedCart);
   window.location.reload();
-
 };
+const totalAmount = listData.reduce((total, product) => {
+  const cartItem = cartData.find(item => String(item.id) === String(product.id));
 
+  // Đảm bảo sản phẩm có trong giỏ hàng trước khi tính toán
+  if (cartItem) {
+    total += cartItem.quantity * product.salePrice;
+  }
 
+  return total;
+}, 0);
+const handleDeleteAll = () => {
+  // Xóa toàn bộ dữ liệu trong localStorage
+  localStorage.removeItem('Cart');
+
+  // Cập nhật state để render lại component
+  setListData([]);
+};
   const columns = [
     { field: 'id', headerName: 'ID', width: 70 },
     { field: 'name', headerName: 'Name', width: 200 },
@@ -58,11 +119,36 @@ const handleRemoveItem = (id) => {
     {
       field: 'quantity',
       headerName: 'Quantity',
-      width: 120,
+      width: 130,
       renderCell: (params) => {
         const cartItem = cartData.find(item => String(item.id) === String(params.row.id));
-        return cartItem ? cartItem.quantity : 0; // Lấy quantity từ cartItem
-    
+        const currentQuantity = cartItem ? cartItem.quantity : 0;
+
+        return (
+          <Box
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              textAlign: 'center',
+            }}
+          >
+            <IconButton
+              onClick={() => handleDecrementCartItem(cartItem)}
+              sx={{ fontSize: '18px', padding: '8px' }}
+            >
+              <RemoveIcon />
+            </IconButton>
+            <Typography variant="p" sx={{ fontSize: '18px', marginRight: '5px' }}>
+              {currentQuantity}
+            </Typography>
+            <IconButton
+              onClick={() => handleIncrementCartItem(cartItem)}
+              sx={{ fontSize: '18px' }}
+            >
+              <AddIcon />
+            </IconButton>
+          </Box>
+        );
       },
     },
     {
@@ -87,9 +173,10 @@ const handleRemoveItem = (id) => {
     return (
       <>
         <Box sx={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', padding: '20px' }}>
+    
           {/* Thêm nút hoặc bất kỳ thành phần điều hướng hoặc thêm mới nếu cần */}
         </Box>
-        <div style={{ height: 700, width: '100%' }}>
+        <div style={{ height: 500, width: '100%' }}>
             <DataGrid
               rows={listData}
               columns={columns}
@@ -98,7 +185,16 @@ const handleRemoveItem = (id) => {
               pageSizeOptions={[5, 10, 25, 50, 100]}
               checkboxSelection
             />
+              <Typography>Tổng tiền:{totalAmount}</Typography>
+              <Button
+          variant="contained"
+          color="error"
+          onClick={handleDeleteAll} 
+        >
+          DeleteAll
+        </Button>
         </div>
+      
       </>
     );
   }

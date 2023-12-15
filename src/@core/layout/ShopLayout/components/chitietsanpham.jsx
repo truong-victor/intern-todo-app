@@ -25,14 +25,17 @@ function ChitietSanpham() {
       const updatedCart = [...cart];
       updatedCart[ProductIndex].quantity += quantity;
         if (updatedCart[ProductIndex].quantity > detailProduct.quantity) {
-        // Hiển thị thông báo (toast) nếu số lượng không phù hợp
         toast.error('Số lượng không phù hợp', {
           position: toast.POSITION.TOP_CENTER,
         });
-        return; // Dừng thực hiện tiếp theo nếu số lượng không phù hợp
+        return; 
       }
   
       setCart(updatedCart);
+      toast('Thêm Vào Giỏ Hàng Thành Công', {
+        position: toast.POSITION.TOP_CENTER,
+      });
+
     } else {
       const newProduct = {
         id: id,
@@ -44,12 +47,22 @@ function ChitietSanpham() {
         });
         return; // Dừng thực hiện tiếp theo nếu số lượng không phù hợp
       }
+       
   
-      setCart(prev => [...prev, newProduct]);
+      setCart(prev => [...prev, newProduct]); 
+      toast('Thêm Vào Giỏ Hàng Thành Công', {
+        position: toast.POSITION.TOP_CENTER,
+      });
+    
     }
+    // setTimeout(() => {
+    //   navigate("/cartitem")
+    // }, 1000);
+   
   };
   
   console.log(cart)
+
   const [detailProduct, setDetailProduct] = useState(null);
   const [selectedImage, setSelectedImage] = useState(null);
   const [listImages, setListImages] = useState([]);
@@ -198,7 +211,9 @@ function ChitietSanpham() {
                   </Box>
 
                   <Box
-                    onClick={handleAddCart}
+                  onClick={() => {
+                    handleAddCart();
+                  }}
               
                     sx={{
                       marginLeft: '10px',
