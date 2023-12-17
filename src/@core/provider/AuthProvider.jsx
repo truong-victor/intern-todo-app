@@ -22,7 +22,7 @@ const AuthProvider = (props) => {
         navigate("/admin/home");
       }
     } catch (error) {
-      toast.error("Vui lofng dang nhap");
+      toast.error("Vui lòng đăng nhập");
       navigate("/login");
     }
   };

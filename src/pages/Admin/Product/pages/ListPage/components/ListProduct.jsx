@@ -71,6 +71,9 @@ const ListProduct = (props) => {
                 <strong>Ảnh Chi Tiết</strong>
               </TableCell>
               <TableCell align="center" sx={{ border: "1px solid #ddd", textAlign: "center" }}>
+                <strong>Số Lượng</strong>
+              </TableCell>
+              <TableCell align="center" sx={{ border: "1px solid #ddd", textAlign: "center" }}>
                 <strong>Hành động</strong>
               </TableCell>
             </TableRow>
@@ -91,14 +94,19 @@ const ListProduct = (props) => {
                   <TableCell align="center" sx={{ border: "1px solid #ddd", textAlign: "center" }}>
                     {row?.name}
                   </TableCell>
+                  
                   <TableCell align="center" sx={{ border: "1px solid #ddd", textAlign: "center" }}>
                     {row?.price?.toLocaleString()}
                   </TableCell>
                   <TableCell align="center" sx={{ border: "1px solid #ddd", textAlign: "center" }}>
                     <img src={row?.avatar} alt="" width="90" height="60" />
                   </TableCell>
+                  
                   <TableCell align="center" sx={{ border: "1px solid #ddd", textAlign: "center" }}>
                     <img src={row?.avatar} alt="" width="60" height="60" />
+                  </TableCell>
+                  <TableCell align="center" sx={{ border: "1px solid #ddd", textAlign: "center" }}>
+                    {row?.quantity}
                   </TableCell>
                   <TableCell align="center" sx={{ border: "1px solid #ddd", textAlign: "center" }}>
                     <IconButton
@@ -116,6 +124,7 @@ const ListProduct = (props) => {
                       <DeleteIcon/>
                     </IconButton>
                   </TableCell>
+                  
                 </TableRow>
               ))
             )}

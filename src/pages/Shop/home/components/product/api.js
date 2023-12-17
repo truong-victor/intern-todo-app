@@ -1,4 +1,7 @@
-import { request } from "../../../../../@core/services/BaseService";
-const {get} = {request}
-const getProductListApi = 'http://localhost:8888/api/v1/admin/product?pageSize=3&page=1';
-const getProductList = get(getProductListApi,)
+import { BaseService } from "../../../../../@core/services/BaseService";
+
+class GetListProductService extends BaseService {
+   
+}
+
+export const getListProductService = new GetListProductService('api/v1/public/product');

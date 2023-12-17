@@ -45,12 +45,6 @@ const CoreUploadFile = (props) => {
       );
     }
     setLoading(false);
-
-    // const file = e.target.files[0];
-    // console.log(
-    //   "🚀 ~ file: CoreUploadFile.jsx:15 ~ handleFileChange ~ file:",
-    //   file
-    // );
   };
 
   return (
