@@ -6,7 +6,6 @@ function CartPage() {
   return (
     <ShopLayout>
       < CartIteam />
-      <CheckForm/>
     </ShopLayout>
   );
 }

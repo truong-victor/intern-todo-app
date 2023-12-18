@@ -44,7 +44,7 @@ export default class AsNavFor extends Component {
         </Slider>
         <Slider
           {...settings}
-          className="mt-[30px] w-full"
+          className=" w-full"
           asNavFor={this.state.nav1}
           ref={(slider) => (this.slider2 = slider)}
           slidesToShow={listImage.length}

@@ -13,10 +13,9 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import { CartIteam } from "./CartIteam";
-function CheckForm({cartData }){
-    const {totalAmount} = CartIteam();
-    console.log('============= cartData',cartData)
-    const [loading, setLoading] = useState(true);
+function CheckForm({ totalAmount, cartData }){
+  // console.log('============= cartData', cartData);
+  const [loading, setLoading] = useState(true);
     const schema = yup.object().shape({
       firstName: yup.string().min(2).max(7).required(),
       lastName: yup.string().min(2).max(7).required(),
@@ -110,15 +109,15 @@ function CheckForm({cartData }){
               <TextField
                 {...register("password")}
                 fullWidth
-                name="password"
+                // name="password"
                 label="Ghi chú"
-                type="password"
-                id="password"
+                // type="password"
+                // id="password"
               />
               <Typography
                 sx={{ color: "red", fontSize: "14px", marginTop: "10px" }}
               >
-                {errors?.password?.message}
+                {/* {errors?.password?.message} */}
               </Typography>
             </Grid>
 
@@ -140,7 +139,7 @@ function CheckForm({cartData }){
           </h2>
           <div className="flex justify-between ">
             <h3>Tổng cộng</h3>
-            <h2 className="font-normal text-[19px]">{CartIteam.totalAmount}</h2>
+            <h2 className="font-normal text-[19px]">{totalAmount}</h2>
           </div>
           <div className="flex justify-between ">
             <h3>Thành tiền</h3>
@@ -163,6 +162,7 @@ function CheckForm({cartData }){
             </Grid>
           </Grid> */}
         </Box>
+
       </div>
     );
 }

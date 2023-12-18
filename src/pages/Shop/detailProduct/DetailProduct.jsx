@@ -100,7 +100,6 @@ function DetailProduct(props) {
       <div className="w-1/2">
         <AsNavFor listImage={images} />
       </div>
-
       <div className="w-[49%] px-[8px]">
         <h1 className="text-[32px] font-semibold">
           [{detailProductData?.name}]

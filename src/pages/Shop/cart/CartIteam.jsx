@@ -6,9 +6,9 @@ import {IconButton} from '@mui/material';
 import RemoveIcon from '@mui/icons-material/Remove';
 import AddIcon from '@mui/icons-material/Add';
 import { toast } from 'react-toastify';
+import CheckForm from './checkForm';
 export { CartIteam };
 function CartIteam() {
-
   const [listData, setListData] = useState([]);
   const cartDataString = localStorage.getItem('Cart');
   const cartData = JSON.parse(cartDataString);
@@ -75,14 +75,19 @@ const handleRemoveItem = (id) => {
   // Cập nhật state để render lại component
   setListData(updatedCart);
 };
-const totalAmount = listData.reduce((total, product) => {
-  const cartItem = cartData.find(item => String(item.id) === String(product.id));
-  // Đảm bảo sản phẩm có trong giỏ hàng trước khi tính toán
-  if (cartItem) {
-    total += cartItem.quantity * product.salePrice;
-  }
-  return total;
-}, 0);
+const [totalAmount, setTotalAmount] = useState(0);
+useEffect(() => {
+  // Tính toán và cập nhật giá trị totalAmount ở đây
+  const calculatedTotalAmount = listData.reduce((total, product) => {
+    const cartItem = cartData.find(item => String(item.id) === String(product.id));
+    if (cartItem) {
+      total += cartItem.quantity * product.salePrice;
+    }
+    return total;
+  }, 0);
+
+  setTotalAmount(calculatedTotalAmount);
+}, [listData, cartData]);
 const handleDeleteAll = () => {
   // Xóa toàn bộ dữ liệu trong localStorage
   localStorage.removeItem('Cart');
@@ -152,33 +157,22 @@ const handleDeleteAll = () => {
       ),
     },
     ];
-
     return (
       <>
-        <Box sx={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', padding: '20px' }}>
-    
-          {/* Thêm nút hoặc bất kỳ thành phần điều hướng hoặc thêm mới nếu cần */}
-          
+        <Box sx={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', padding: '20px' }}>         
         </Box>
         <div style={{ height: 'aoto', width: '100%' }}>
             <DataGrid
               rows={listData}
               columns={columns}
-              // pageSize={10}
+              pageSize={10}
               pagination
               pageSizeOptions={[5, 10, 25, 50, 100]}
               checkboxSelection
             />
-              <Typography>Tổng tiền:{totalAmount}</Typography>
-              {/* <Button
-          variant="contained"
-          color="error"
-onClick={handleDeleteAll} 
-        >
-          DeleteAll
-        </Button> */}
+              {/* <Typography>Tổng tiền:{totalAmount}</Typography> */}
         </div>
-      
+        <CheckForm totalAmount={totalAmount} cartData={cartData}/>
       </>
     );
   }
