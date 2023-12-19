@@ -1,4 +1,7 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState, useEffect } from "react";
+import { useNavigate } from "react-router";
+import { authService } from "../../pages/Auth/services/authService";
+import { toast } from "react-toastify";
 
 const AuthContext = createContext();
 
@@ -9,12 +12,31 @@ const AuthProvider = (props) => {
 
   const [token, setToken] = useState(null);
 
-  const login = (token) => {
-    // lấy token ở đây và call api /me để lấy thông tin user cập nhật lại vào state
-    // setUser(..)
+  const navigate = useNavigate();
 
-    sessionStorage.setItem("accessToken", "value");
+  const login = async () => {
+    try {
+      const userInfo = await authService.getInfo();
+      setUser(userInfo?.data);
+      console.log(userInfo);
+      if (window.location.pathname === "/login" || window.location.pathname === "/Login") {
+        navigate("/admin");
+      }
+    } catch (error) {
+      toast.error("Vui dang nhap");
+      navigate("/home");
+    }
+
+    // sessionStorage.setItem("accessToken", "value");
   };
+
+
+  useEffect(() => {
+    const localToken = sessionStorage.getItem("accessToken");
+    if (localToken) {
+      login();
+    }
+  }, []);
 
   const logout = () => {
     setUser(null);

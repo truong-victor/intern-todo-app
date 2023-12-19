@@ -1,0 +1,94 @@
+#img{
+    margin-left: 100px;
+    width: 200px;
+}
+
+::placeholder{
+    padding-left: 10px;
+}
+
+.input{
+    position: relative;
+}
+
+button{
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 50px;
+    height: 100%;
+    border-radius: 50%;
+    cursor: pointer;
+    border: none;
+    background: none;
+    font-size: 18px;
+}
+
+#build{
+    color: aliceblue;
+    font-size: 30px;
+}
+
+#phone{
+    color:#fff;
+    font-size: 30px;
+}
+
+#new{
+    color:#fff;
+    font-size: 30px;
+}
+
+#cart{
+    color:#fff;
+    font-size: 30px;
+}
+
+#account{
+    color:#fff;
+    font-size: 30px;
+}
+
+#location{
+    color: #fff;
+    font-size: 30px;
+}
+
+p{
+    color: #fff;
+    font-size: 12px;
+    font-weight: 400;
+}
+
+
+#listproduct{
+    width: 200px;
+    border-radius: 6px;
+    align-items: center;
+    margin-left: 100px;
+}
+
+#bar{
+    font-size: 20px;
+    color: #244e96;
+}
+
+span{
+    margin-left: 8px;
+    margin-top:10px;
+    color: #244e96;
+    font-weight: 500;
+    
+}
+
+
+.menu{
+    color: #fff;
+    font-size: 13px;
+    margin-left: 20px;
+}
+
+
+
+
+

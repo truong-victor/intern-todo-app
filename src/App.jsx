@@ -3,6 +3,7 @@ import AuthProvider from "./@core/provider/AuthProvider";
 import AppRouter from "./router/AppRouter";
 import "react-toastify/dist/ReactToastify.css";
 import { useYupChangeLocale } from "./@core/helper/Yup";
+import CartProvider from "./@core/provider/CartProvider";
 
 function App() {
   //YUP custom  Cái này để custom YUP dùng cho toàn APP
@@ -11,19 +12,22 @@ function App() {
 
   return (
     <AuthProvider>
-      <ToastContainer
-        position="top-right"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="light"
-      />
-      <AppRouter />
+      <CartProvider>
+        <ToastContainer
+          position="top-right"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="light"
+        />
+        <AppRouter />
+      </CartProvider>
+
     </AuthProvider>
   );
 }

@@ -1,28 +1,34 @@
-import React from "react";
-import ListProductPage from "./Product/pages/ListPage";
-
+import React, { Suspense } from "react";
+import useAuthContext from "../../@core/provider/AuthProvider";
+import { CircularProgress } from "@mui/material";
+import DashBoard from "./Dashboard";
 const LazyListProductPage = React.lazy(() =>
   import("./Product/pages/ListPage")
 );
 
-export const ProtectRouteAuth = (props) => {
-  const { token } = useAuthContext();
+import DetailProductPage from "./Product/pages/DetailPage";
 
-  if (!token) {
-    sessionStorage.clear();
-    return <Navigate to={"/login"} />;
-  }
+import ListProductPage from "./Product/pages/ListPage";
+import DetailProductAdmin from "../../@core/layout/AdminLayout/Product/detailProduct";
 
-  return props.children;
-};
 
 export const adminRoute = [
   {
-    path: "/product",
-    component: (
-      <ProtectRouteAuth>
-        <LazyListProductPage />
-      </ProtectRouteAuth>
-    ),
+    path: "/admin",
+    component: <DashBoard />,
+  },
+  {
+    path: "/admin/product/:id",
+    component: <DetailProductPage />,
+  },
+
+  {
+    path: "/admin/product",
+    component: <ListProductPage />,
+  },
+
+  {
+    path:"/admin/product/detail/:id",
+    component : <DetailProductAdmin/>,
   },
 ];

@@ -6,6 +6,7 @@ import { LoadingButton } from "@mui/lab";
 import { authService } from "../../../services/authService";
 import { toast } from "react-toastify";
 import CoreUploadFile from "../../../../../@core/components/inputs/CoreUploadFile";
+import { useNavigate } from "react-router";
 export const RegisterForm = (props) => {
   const {
     control,
@@ -29,13 +30,17 @@ export const RegisterForm = (props) => {
     ),
   });
 
+  const navigate = useNavigate()
+
   const onSubmit = handleSubmit(async (data) => {
     console.log("🚀 ~ file: RegisterForm.jsx:24 ~ onSubmit ~ data:", data);
     try {
       await authService.register(data);
       toast.success("Đăng ký thành công");
+      navigate("/login");
     } catch (err) {
       toast.error("Đăng ký thất bại");
+      
     }
   });
 

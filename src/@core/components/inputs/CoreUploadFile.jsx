@@ -6,6 +6,7 @@ import { useController } from "react-hook-form";
 const CoreUploadFile = (props) => {
   const { control, name } = props;
 
+
   const {
     field: { value, onBlur, onChange, ref },
     fieldState: { error },
@@ -23,17 +24,20 @@ const CoreUploadFile = (props) => {
   //   Khi user chọn ảnh , lấy ảnh và gọi api upload
 
   const [loading, setLoading] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
   const handleFileChange = async (e) => {
     setLoading(true);
     const file = e.target.files[0];
-
+    const token = sessionStorage.getItem("accessToken");
     const formData = new FormData();
     formData.append("image", file);
+    
 
     try {
       const response = await fetch(
-        "https://nguyencongclone.onrender.com/api/v1/file",
+        "http://localhost:8888/api/v1/file",
         {
+          headers: { "x-access-token": token },
           method: "POST",
           body: formData,
         }
@@ -47,13 +51,8 @@ const CoreUploadFile = (props) => {
         error
       );
     }
-    setLoading(false);
+    setLoading(true);
 
-    // const file = e.target.files[0];
-    // console.log(
-    //   "🚀 ~ file: CoreUploadFile.jsx:15 ~ handleFileChange ~ file:",
-    //   file
-    // );
   };
 
   return (

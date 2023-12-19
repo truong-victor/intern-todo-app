@@ -1,14 +1,13 @@
 import { Route, Routes } from "react-router-dom";
 
-import Register from "../pages/Auth/pages/register";
-// import Login from "../pages/login";
+import AddProductForm from "../pages/Admin/Product/pages/DetailPage/AddProductFile";
 
 import { shopRoute } from "../pages/Shop/ShopRoute";
 import { adminRoute } from "../pages/Admin/AdminRoute";
 import { authRoute } from "../pages/Auth/AuthRoute";
 import React, { Suspense } from "react";
 import { CircularProgress } from "@mui/material";
-
+import Address from "../pages/Shop/home/components/provinceApi/Address";
 const errorRoute = [
   {
     path: "/404",
@@ -17,7 +16,7 @@ const errorRoute = [
 ];
 
 const AppRouter = (props) => {
-  const appRoute = [...authRoute, ...shopRoute, adminRoute, errorRoute];
+  const appRoute = [...authRoute, ...shopRoute, ...adminRoute, ...errorRoute];
   return (
     <Suspense
       fallback={
@@ -31,6 +30,8 @@ const AppRouter = (props) => {
           <Route key={index} path={item.path} element={item.component} />
         ))}
       </Routes>
+
+
     </Suspense>
   );
 };

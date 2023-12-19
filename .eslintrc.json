@@ -18,5 +18,8 @@
   },
   "rules": {
     "react/react-in-jsx-scope": "off"
-  }
+  },
+  
+  // extend plugin:storybook/<configuration>, such as:
+  "extends": ["plugin:storybook/recommended"]
 }
