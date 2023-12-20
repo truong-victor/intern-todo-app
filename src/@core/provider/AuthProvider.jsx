@@ -9,10 +9,8 @@ export const useAuthContext = () => useContext(AuthContext);
 
 const AuthProvider = (props) => {
   const [user, setUser] = useState(null);
-
   const [token, setToken] = useState(null);
   const navigate = useNavigate();
-
   const login = async () => {
     try {
       const userInfo = await authService.getInfo();

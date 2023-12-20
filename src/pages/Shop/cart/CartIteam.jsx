@@ -31,41 +31,38 @@ function CartIteam() {
     fetchAllProducts();
   }, []);
 console.log('567cm',listData);
-const handleIncrementCartItem = (cartItem) => {
-  const product = listData.find(item => String(item.id) === String(cartItem.id));
-
-  if (product && cartItem.quantity < product.quantity) {
-    const updatedCart = cartData.map(item =>
-      item.id === cartItem.id ? { ...item, quantity: item.quantity + 1 } : item
-    );
-    localStorage.setItem('Cart', JSON.stringify(updatedCart));
-    setListData(prevListData =>
-      prevListData.map(item =>
-        item.id === cartItem.id ? { ...item, quantity: item.quantity + 1 } : item
-      )
-    );
-  } else {
-    toast.error('Số lượng không phù hợp ok', {
-      position: toast.POSITION.TOP_CENTER,
-    });
-  }
-};
-const handleDecrementCartItem = (cartItem) => {
-  const product = listData.find(item => String(item.id) === String(cartItem.id));
-
-  if (product && cartItem.quantity > 1) {
-    const updatedCart = cartData.map(item =>
-      item.id === cartItem.id ? { ...item, quantity: item.quantity - 1 } : item
-    );
-
-    localStorage.setItem('Cart', JSON.stringify(updatedCart));
-    setListData(prevListData =>
-      prevListData.map(item =>
-        item.id === cartItem.id ? { ...item, quantity: item.quantity - 1 } : item
-      )
-    );
-  }
-};
+    const handleIncrementCartItem = (cartItem) => {
+      const product = listData.find(item => String(item.id) === String(cartItem.id));
+      if (product && cartItem.quantity < product.quantity) {
+        const updatedCart = cartData.map(item =>
+          item.id === cartItem.id ? { ...item, quantity: item.quantity + 1 } : item
+        );
+        localStorage.setItem('Cart', JSON.stringify(updatedCart));
+        setListData(prevListData =>
+          prevListData.map(item =>
+            item.id === cartItem.id ? { ...item, quantity: item.quantity + 1 } : item
+          )
+        );
+      } else {
+        toast.error('Số lượng không phù hợp ok', {
+          position: toast.POSITION.TOP_CENTER,
+        });   
+      }
+    };
+    const handleDecrementCartItem = (cartItem) => {
+      const product = listData.find(item => String(item.id) === String(cartItem.id));
+      if (product && cartItem.quantity > 1) {
+        const updatedCart = cartData.map(item =>
+          item.id === cartItem.id ? { ...item, quantity: item.quantity - 1 } : item
+        );
+        localStorage.setItem('Cart', JSON.stringify(updatedCart));
+        setListData(prevListData =>
+          prevListData.map(item =>
+            item.id === cartItem.id ? { ...item, quantity: item.quantity - 1 } : item
+          )
+        );
+      }
+    };
 
 const handleRemoveItem = (id) => {
   // Xóa sản phẩm có id tương ứng từ giỏ hàn
@@ -94,8 +91,27 @@ const handleDeleteAll = () => {
   // Cập nhật state để render lại component
   setListData([]);
 };
+const handleInputChange = (cartItem, value) => {
+  const parsedValue = parseInt(value, 10);
+  if (!isNaN(parsedValue) && parsedValue >= 1) {
+    const updatedCart = cartData.map(item =>
+      item.id === cartItem.id ? { ...item, quantity: parsedValue } : item
+    );
+    localStorage.setItem('Cart', JSON.stringify(updatedCart));
+    setListData(prevListData =>
+      prevListData.map(item =>
+        item.id === cartItem.id ? { ...item, quantity: parsedValue } : item
+      )
+    );
+  } else {
+    toast.error('Không đủ số lượng fen ơi', {
+      position: toast.POSITION.TOP_CENTER,
+    });
+  }
+};
+
   const columns = [
-    { field: 'id', headerName: 'ID', width: 70 },
+    // { field: 'id', headerName: 'ID', width: 70 },
     { field: 'name', headerName: 'Name', width: 200 },
     { field: 'salePrice', headerName: 'Sale Price', width: 130 },
     {
@@ -126,9 +142,12 @@ const handleDeleteAll = () => {
             >
               <RemoveIcon />
             </IconButton>
-            <Typography variant="p" sx={{ fontSize: '18px', marginRight: '5px' }}>
-              {currentQuantity}
-            </Typography>
+            <input
+              type="text"
+              value={currentQuantity}
+              onChange={(e) => handleInputChange(cartItem, e.target.value)}
+              style={{ width: '40px', textAlign: 'center' }}
+            />
             <IconButton
               onClick={() => handleIncrementCartItem(cartItem)}
               sx={{ fontSize: '18px' }}

@@ -1,6 +1,5 @@
 import { useMemo, useState , useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
-import { useCartContext } from "../../../@core/provider/CartProvider";
 import AsNavFor from "./Carousel";
 import CoreNumberInput from "../../../@core/components/inputs/CoreNumberInput";
 import RedeemIcon from "@mui/icons-material/Redeem";
@@ -23,33 +22,41 @@ function DetailProduct(props) {
   
     if (ProductIndex !== -1) {
       // Sản phẩm đã tồn tại trong giỏ hàng, cập nhật số lượng
-      const updatedCart = [...cart];
-      updatedCart[ProductIndex].quantity += quantity;
-      
+      setCart(prevCart => {
+        const updatedCart = [...prevCart];
+        updatedCart[ProductIndex].quantity += quantityItem;
+  
         if (updatedCart[ProductIndex].quantity > detailProduct.quantity) {
-        // Hiển thị thông báo (toast) nếu số lượng không phù hợp
-        toast.error('Không đủ số lượng ok', {
+          // Hiển thị thông báo (toast) nếu số lượng không phù hợp
+          toast.error('Không đủ số lượng ok', {
+            position: toast.POSITION.TOP_CENTER,
+          });
+          return prevCart; // Dừng thực hiện tiếp theo nếu số lượng không phù hợp
+        }
+  
+        toast.success('Đã thêm vào giỏ hàng', {
           position: toast.POSITION.TOP_CENTER,
         });
-        return; // Dừng thực hiện tiếp theo nếu số lượng không phù hợp
-      }
-      
-      setCart(updatedCart);
-      toast.success('Đã thêm vào giỏ hàng', {
-        position: toast.POSITION.TOP_CENTER,
+  
+        return updatedCart;
       });
     } else {
       const newProduct = {
         id: id,
-        quantity: quantity, 
+        quantity: quantityItem,
       };
-        if (newProduct.quantity > detailProduct.quantity) {
+      if (newProduct.quantity > detailProduct.quantity) {
         toast.error('Không đủ số lượng', {
           position: toast.POSITION.TOP_CENTER,
         });
         return; // Dừng thực hiện tiếp theo nếu số lượng không phù hợp
       }
-      setCart(prev => [...prev, newProduct]); 
+      setCart(prev => {
+        toast.success('Đã thêm vào giỏ hàng', {
+          position: toast.POSITION.TOP_CENTER,
+        });
+        return [...prev, newProduct];
+      });
     }
   };
   const backgroundImageStyle = {

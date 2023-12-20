@@ -10,8 +10,19 @@ import PhoneIcon from '@mui/icons-material/Phone';
 import NewspaperIcon from '@mui/icons-material/Newspaper';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';     
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import Badge from '@mui/material/Badge';
 import { Link } from "react-router-dom";
+import React, { useState, useEffect } from 'react';
+import useLocalStorage from '../../../../pages/Shop/hook/useLocalStorage';
 function Header(){
+    const [cartItemCount, setCartItemCount] = useState(0);
+    const [cart] = useLocalStorage({
+        key: 'Cart',
+        initValue: [],
+    });
+    useEffect(() => {
+        setCartItemCount(cart.length);
+  }, [cart]);
     return(
         <Box className="w-full h-[60px] px-[150px] flex items-center justify-between bg-[#0f5b99]" >
             <Link to={`/home`}>
@@ -43,18 +54,16 @@ function Header(){
             </IconButton>
             <Link to={`/cart`}>
                 <IconButton className='flex flex-col' type="button" sx={{ p: '10px' }} aria-label="search">
+                    <Badge badgeContent={cartItemCount} color="primary">
                         <ShoppingCartIcon className='text-white' />
-                        <span className='text-xs text-white font-medium'>Giỏ Hàng</span>
+                    </Badge>
+                    <span className='text-xs text-white font-medium'>Giỏ Hàng</span>
                 </IconButton>
-            </Link>
-            
+            </Link>           
             <IconButton className='flex flex-col' type="button" sx={{ p: '10px' }} aria-label="search">
                     <AccountCircleIcon className='text-white' />
                     <span className='text-xs text-white font-medium'>Tài Khoản</span>
             </IconButton>
-                    
-
-
         </Box>
     )
 }
