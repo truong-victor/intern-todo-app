@@ -41,13 +41,11 @@ export default function SelectCity(props) {
   const [cities, setCities] = React.useState([]);
   
   const handleChange =(e)=>{
-    console.log(e.target.value)
     onChange(e?.target?.value)
   }
   React.useEffect(()=>{
   const fetchCities = async ()=>{
     const response = await getCities();
-    console.log(response.results)
     setCities(response.results)
   }
 

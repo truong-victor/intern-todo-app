@@ -3,6 +3,8 @@ const LazyHome = React.lazy(() => import("./home"));
 const LazyProduct = React.lazy(() => import("./product"));
 const LazyDetailProduct = React.lazy(() => import("./detailProduct"));
 const LazyCart = React.lazy(() => import("./cart"));
+const LazyBanner = React.lazy(() => import("./banner"));
+
 
 export const shopRoute = [
   {
@@ -20,5 +22,9 @@ export const shopRoute = [
   {
     path: "/cart",
     component: <LazyCart />,
+  },
+  {
+    path: "/banner",
+    component: <LazyBanner />,
   },
 ];

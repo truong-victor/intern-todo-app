@@ -53,7 +53,6 @@ export const RegisterForm = (props) => {
         name="name"
         placeholder="Điền tên của bạn"
         label="Họ và tên"
-        // type="number"
       />
       <CoreInput
         control={control}

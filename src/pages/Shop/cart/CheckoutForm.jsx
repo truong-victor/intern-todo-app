@@ -45,10 +45,9 @@ function CheckoutForm(){
       }
     }); 
 
-    console.log("current form value", watch())
+    // console.log("current form value", watch())
 
     const onSubmit =  handleSubmit((data)=>{
-      alert('tes')
       console.log(data)
     })
 

@@ -18,11 +18,10 @@ function Product(){
     } = useRequest(getListProductService.search, {
       manual: true,
     });
-console.log(listData)
     useEffect(() => {
       fetchListData({ params: paging });
     }, [JSON.stringify(paging)]);
-
+    
     const handleChangePage = (_, page) => {
       setPaging((prev) => ({ ...prev, page }));
     };

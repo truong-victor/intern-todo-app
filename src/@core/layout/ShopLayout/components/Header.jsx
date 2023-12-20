@@ -16,8 +16,12 @@ import NewspaperIcon from '@mui/icons-material/Newspaper';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';     
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { useNavigate } from 'react-router';
+import { useForm } from 'react-hook-form';
+import { useState } from 'react';
+import SearchFilter from './filter/SearchFilter';
 function Header(){
     const {cartItems} = useCartContext()
+    
     const navigate = useNavigate()
     return (
       <Box className="p-3 w-full h-[60px] lg:px-[150px] lg:flex-nowrap flex items-center justify-between bg-[#0f5b99]">
@@ -38,29 +42,7 @@ function Header(){
           fontSize="large"
           className="order-2 lg:block lg:ml-8 lg:p-[6px] lg:border-white lg:border-2 lg:rounded-full lg:text-white "
         />
-        <Paper
-          component="form"
-          sx={{
-            display:"none",
-            p: "2px 4px",
-            alignItems: "center",
-            width: '100%',
-            height: 40,
-            order: 8,
-            "@media screen and (min-width:1024px)": {order: 3, display: 'flex'},
-          }}
-          className='w-[430px] lg:ml-2'
-        >
-          <InputBase
-            sx={{ ml: 1, flex: 1, }}
-            placeholder="Search Google Maps"
-            inputProps={{ "aria-label": "search google maps" }}
-          />
-          <IconButton type="button" sx={{ p: "10px" }} aria-label="search">
-            <SearchIcon />
-          </IconButton>
-        </Paper>
-
+         <SearchFilter />
         <IconButton
           type="button"
           sx={{ p: "10px", display: 'none ',"@media screen and (min-width:1024px)": {display: 'flex'} }}

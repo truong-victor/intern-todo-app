@@ -6,21 +6,20 @@ import CoreNumberInput from "../../../@core/components/inputs/CoreNumberInput";
 import RedeemIcon from "@mui/icons-material/Redeem";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import { CleaningServices } from "@mui/icons-material";
+
+import { toast } from "react-toastify";
 function DetailProduct(props) {
   const { detailProductData } = props;
   const { cartItems,setCartItems, addToCart } = useCartContext();
-
   const [purchaseQuantity, setPurchaseQuantity] = useState(1)
-
-  console.log(cartItems)
-  
+  console.log('purchaseQuantiy', purchaseQuantity)
+  console.log(detailProductData);
   const backgroundImageStyle = {
     backgroundImage:
-      "url('/public/images/product/background_offer_detail.png')",
+      "url('/images/product/background_offer_detail.png')",
     backgroundSize: "cover",
     backgroundPosition: "center",
   };
-
   const images = useMemo(() => {
     if (detailProductData) {
       return JSON.parse(detailProductData?.listImage);
@@ -31,24 +30,36 @@ function DetailProduct(props) {
   const  handleAddToCart = ()=>{
     const existedItem = cartItems?.find((item) => item?.id === detailProductData?.id)
     if(!existedItem) {
-        addToCart({...detailProductData, purchaseQuantity: purchaseQuantity, checked: false})
+        if(purchaseQuantity > detailProductData?.quantity){
+          toast.error(`Số lượng tối đa: ${detailProductData?.quantity}`, {
+          position: toast.POSITION.TOP_CENTER,
+        });
+        } else{
+          toast.success('Đã có trong giỏ hàng', {
+           position: toast.POSITION.TOP_CENTER,
+         });
+          addToCart({id: detailProductData?.id, purchaseQuantity: purchaseQuantity, checked: false})
+        }
     } 
     else{
-
-      const newPurchaseQuantity = existedItem.purchaseQuantity + purchaseQuantity;
-        const newCartItems = cartItems.map((item) =>{
-          if(item.id == existedItem.id){
-            return {...item, purchaseQuantity: newPurchaseQuantity}
-          } return item;
+      if(purchaseQuantity > detailProductData?.quantity){
+          toast.error(`Số lượng tối đa: ${detailProductData?.quantity}`, {
+          position: toast.POSITION.TOP_CENTER,
         })
-
-        setCartItems(newCartItems);
-
+      }else{
+          toast.success('Đã có trong giỏ hàng', {
+           position: toast.POSITION.TOP_CENTER,
+         });
+         const newPurchaseQuantity = existedItem.purchaseQuantity + purchaseQuantity;
+           const newCartItems = cartItems.map((item) =>{
+             if(item.id == existedItem.id){
+               return {...item, purchaseQuantity: newPurchaseQuantity}
+             } return item;
+           })
+           setCartItems(newCartItems);
+        }
     }
-
   }
-
-  
   return (
     <div className="flex justify-between bg-[#fff] mt-8 mb-8">
       <div className="w-1/2">

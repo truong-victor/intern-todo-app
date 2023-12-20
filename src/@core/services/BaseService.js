@@ -1,7 +1,7 @@
 import queryString from "query-string";
 
 export class BaseService {
-  BASE_URL = "https://nguyencongclone.onrender.com"
+  BASE_URL = "http://localhost:8888"
     // process.env.NODE_ENV === "development"
     //   ? "https://nguyencongclone.onrender.com"
     //     // "http://localhost:8888"

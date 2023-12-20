@@ -10,7 +10,7 @@ const ShopLayout = (props) => {
     <Box className="relative flex flex-col">
       <Header />
       {window.location.pathname == '/cart' ? (<CustomSeparator/>) : ''}
-      <Box className="flex justify-center mt-5">
+      <Box className="flex justify-center ">
         <Box className=" lg:w-4/5  max-w-[1920px]">{props.children}</Box>
       </Box>
 

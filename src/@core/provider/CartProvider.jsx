@@ -28,6 +28,7 @@ function CartProvider(props) {
     setCartItems(newCartItems)
   }
   const removeAll = ()=>{
+    console.log('test')
     setCartItems([])
   }
 

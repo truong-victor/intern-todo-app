@@ -5,12 +5,15 @@ import AppRouter from "./router/AppRouter";
 import "react-toastify/dist/ReactToastify.css";
 import { useYupChangeLocale } from "./@core/helper/Yup";
 
+
+import { ParallaxProvider } from 'react-scroll-parallax';
 function App() {
   //YUP custom  Cái này để custom YUP dùng cho toàn APP
   useYupChangeLocale();
   //YUP custom end
 
   return (
+
     <AuthProvider>
       <CartProvider>
         <ToastContainer
@@ -29,6 +32,7 @@ function App() {
       <AppRouter />
       </CartProvider>
     </AuthProvider>
+
   );
 }
 

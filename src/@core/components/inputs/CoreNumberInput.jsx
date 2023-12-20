@@ -1,27 +1,33 @@
 
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useCartContext } from '../../provider/CartProvider';
 // import './CustomNumberInput.css'; // Import your styles (if using external styles)
  
 function CoreNumberInput(props) {
+  const inputRef = useRef()
+  // console.log(inputRef.current.);
   const {purchaseQuantity, setPurchaseQuantity } = props
   const [value, setValue] = useState(1);
 
   console.log(purchaseQuantity)
   const decrement = () => {
-    setValue(prevValue => Math.max(prevValue - 1, 0));
+    inputRef.current.value = Math.max(Number(inputRef.current.value) - 1, 1);
+    setPurchaseQuantity(Number(inputRef.current.value));
+    // setValue(Number(inputRef.current.value))
+
   };
 
   const increment = () => {
-    setValue(prevValue => prevValue + 1);
-  };
+    inputRef.current.value = Number(inputRef.current.value) + 1;
+    setPurchaseQuantity(Number(inputRef.current.value));
+    // setValue(Number(inputRef.current.value))
 
+  };
+  
  
-  useEffect(()=>{
-      setPurchaseQuantity(value)
-   
-  }, [value])
+  console.log(typeof(purchaseQuantity), purchaseQuantity);
+ 
 
   return (
     <div className="custom-number-input h-10 w-32">
@@ -47,10 +53,11 @@ function CoreNumberInput(props) {
           <span className="m-auto text-2xl font-thin">−</span>
         </button>
         <input
+          onChange={(e) =>{setPurchaseQuantity(Number(inputRef.current.value))}}
+          ref={inputRef}
           type="number"
-          className="outline-none focus:outline-none text-center w-full bg-gray-300 font-semibold text-md hover:text-black focus:text-black md:text-base cursor-default flex items-center text-gray-700 outline-none"
+          className=" focus:outline-none text-center w-full bg-gray-300 font-semibold text-md hover:text-black focus:text-black md:text-base cursor-default flex items-center text-gray-700 outline-none"
           name="custom-input-number"
-          value={value}
           defaultValue={1} 
         />
         <button onClick={increment} className="bg-gray-300 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-full w-20 rounded-r cursor-pointer">
@@ -61,4 +68,4 @@ function CoreNumberInput(props) {
   );
 }
 
-export default CoreNumberInput;
+export default React.memo(CoreNumberInput);
