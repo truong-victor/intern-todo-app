@@ -10,9 +10,8 @@ export default function DeleteAll() {
 
     return(
         <>
-        <BasicBreadcrumbsDeleteAll/>
         <div className="ml-96">
-            <div className="ml-40">
+            <div className="ml-64">
                 <img src={CartInHome} alt="CartInHome" />
             </div>
             <div className="ml-44 mt-3">

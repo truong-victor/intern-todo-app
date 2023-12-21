@@ -51,6 +51,8 @@ export default function DetailProduct() {
 
   const [results, setResults] = useState([]);
   const [purchaseQuantity, setPurchaseQuantity] = useState(1);
+  const [quantity, setQuantity] = useState(0)
+  console.log("quantity55", quantity)
 
   const navigate = useNavigate();
 
@@ -75,86 +77,37 @@ export default function DetailProduct() {
   }, [JSON.stringify(detailProduct)]);
 
   const { cart, setCart, addToCart, getLocalStorage, updateCart } = useCart();
-  console.log("cart11", cart);
-  console.log("setCart", setCart);
-  console.log("addToCart", addToCart);
-  console.log("updateCart", updateCart);
-  //   const handleClickCart = (id) => {
-  //     const product = cart.some(value => value.id === id)
-  //     // console.log("product", product)
-  //     const isPreItem = cart?.find((item) => {
-  //         return item?.data?.id === detailProduct?.data?.id
 
-  //   })
-
-  // if(!isPreItem) {
-  // if (purchaseQuantity >= detailProduct?.data?.quantity) {
-  // addToCart({...detailProduct, purchaseQuantity: purchaseQuantity})
-  // alert("Added product successfully")
-
-  // }
-  //     }
-  //     else {
-  //         const product = cart?.find(value => value.id === id)
-  //         const getIndex = cart?.findIndex(value => value.id === id)
-  //         console.log("getIndex", getIndex)
-  //         const newPurChaseQuantity = isPreItem.purchaseQuantity = purchaseQuantity;
-  //         const newCartItem = cart.map((item) => {
-  //             if(item?.data?.id === isPreItem?.data?.id) {
-  //                 console.log("item?.data?.id",item?.data?.id)
-  //                 return{...item, purchaseQuantity: newPurChaseQuantity};
-  //             }
-  //             return item;
-  //         })
-  //         setCart(newCartItem)
-  //     }
-  // };
 
   const handleClickCart = () => {
-    const quantity = document.getElementById("addQuantity")?.value;
-    if (quantity == "") {
-      alert("No product quantity yet");
-    } else {
-      const isPreItem = cart.find((item) => {
-        return item?.data?.id === detailProduct?.data?.id;
-      });
-      console.log("isPreItem", isPreItem);
+    if(quantity > detailProduct?.data?.quantity){
+      alert("Not enough quantity product in warehouse")
+      return addToCart({ ...detailProduct, quantity: detailProduct?.data?.quantity });
+    }else{
+      if (quantity == "") {
+        alert("No product quantity yet");
+      } else {
+        const isPreItem = cart.find((item) => {
+          return item?.data?.id === detailProduct?.data?.id;
+        });
+        console.log("isPreItem", isPreItem);
 
-      if (!isPreItem) {
-        // if(Number(quantity) >= detailProduct?.data?.quantity){
-        alert("Product added successfully");
-        return addToCart({ ...detailProduct, quantity: Math.abs(quantity) });
-      }
-      if (isPreItem) {
-        const newQuantity = Math.abs(isPreItem?.quantity) + Math.abs(quantity);
-
-        console.log("NewQuantity", newQuantity);
-        const updateCart = (id, newQuantity) => {
-          cart.map((row) => {
-            if (row?.data?.id === id) {
-              return { ...row, quantity: newQuantity };
-            }
-            return row;
-          });
-        };
-      }
+        if (!isPreItem) {
+          // if(Number(quantity) >= detailProduct?.data?.quantity){
+          alert("Product added successfully");
+          return addToCart({ ...detailProduct, quantity: Math.abs(quantity) });
+        }
+        if (isPreItem) {
+          alert("Products already in the cart");
+        }
+}
     }
-
-    // if(!isPreItem){
-    //     addToCart({...detailProduct, purchaseQuantity: purchaseQuantity})
-    //     console.log("purchaseQuantity",purchaseQuantity)
-    //     alert("Added product successfully")
-    // }
-    // else{
-    //     const getIndex = cart.findIndex(item => item?.data?.id === detailProduct?.data?.id)
-    //     console.log("getIndex", getIndex)
-    //     cart[getIndex] += purchaseQuantity
-    // }
+      
   };
 
   return (
     <>
-      <AsNavFor/>
+      <AsNavFor />
       <Layout />
       <BasicBreadcrumbs />
       <div className="lg:flex lg:mt-10 ">
@@ -266,21 +219,12 @@ export default function DetailProduct() {
           </div>
 
           <div className="lg:flex">
-            {/* <div className="mt-4">
-                            Số lượng
-                        </div>
-                        <div className="flex ml-10 mt-4">
-                            <div className="border border-sky-500 w-10 h-10">
-                                <div className="ml-2 mt-1">-</div>
-                            </div>
-                            <div className="border border-sky-500 w-16 h-10">
-                                <div className="mt-1 ml-6">1</div>
-                            </div>
-                            <div className="border border-sky-500 w-10 h-10">
-                                <div className="ml-2 mt-1">+</div>
-                            </div>
-                        </div> */}
-            <input type="number" placeholder="value" id="addQuantity" />
+            <input
+              type="number"
+              placeholder="value"
+              value={quantity}
+              onChange={(e) => setQuantity(e?.target?.value)}
+            />
             <div
               className="lg:border lg:rounded-md lg:border-sky-500 lg:ml-4 lg:w-48 lg:h-10 lg:mt-4 lg:flex"
               onClick={() => handleClickCart(detailProduct?.data?.id)}

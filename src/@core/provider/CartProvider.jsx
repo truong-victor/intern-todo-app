@@ -1,4 +1,5 @@
-import React, { useContext, createContext, useState, useEffect } from "react";
+import React, { useContext, createContext, useState, useEffect, useRef } from "react";
+import { toast } from "react-toastify";
 
 
 const CartContext = createContext()
@@ -9,41 +10,60 @@ const CartProvider = (props) => {
   const getLocalStorage = JSON.parse(localStorage.getItem('item11'))
 
   const [cart, setCart] = useState(getLocalStorage?? []);
+  console.log("cart12", cart)
   const[loading, setLoading] = useState(false);
   const[total, setTotal] = useState(0);
-  console.log('cartProvider', cart)
+  const [quantity, setQuantity] = useState(0);
 
   const addToCart = item => {
-      setCart((prev) => [...prev, item]);
+    console.log("item19", item)
+      setCart((prev) => (
+        [...prev, item]
+      ));
+  };
+
+
+  const quantityInCart = (index) => {
+    if(cart[index] != []) {
+      let total = 0 ;
+      if(cart[index]?.quantity < cart[index]?.data?.quantity){
+        total = cart[index]?.quantity
+        setQuantity(total);
+      }else{
+        total = cart[index]?.data?.quantity
+        setQuantity(total)
+      }
+    }
   }
+
   useEffect(()=>{
     localStorage.setItem('item11', JSON.stringify(cart))
-  }, [JSON.stringify(cart)])
+  }, [JSON.stringify(cart)]);
 
   const updateCart = (id, newQuantity) => { 
       setCart(prev => prev.map((item) => {
         if(item?.data?.id === id ){
           return{...item, quantity: newQuantity}
         }
-
+        
         return item;
       }))
-  }
+  };
+
   const increaseCartNumber = (index) => {
-    console.log("index29", index);
-    if(cart[index]?.quantity <70){
+    if(cart[index]?.quantity < cart[index]?.data?.quantity){
       const getLocalStorage = JSON.parse(localStorage.getItem('item11'))
       getLocalStorage[index] = {
         ...getLocalStorage[index],
         quantity : ++getLocalStorage[index].quantity
       }
-      setCart(getLocalStorage)
+      setCart(getLocalStorage);
     }
     else{
-      alert("There is not enough quantity in stock as you requested")
+      alert("There is not enough quantity in stock as you requested");
     }
 
-  }
+  };
 
   const reduceCartNumber = (index) => {
       console.log("index39", index)
@@ -54,15 +74,15 @@ const CartProvider = (props) => {
           ...getLocalStorage[index],
           quantity : --(getLocalStorage[index].quantity)
         }
-        setCart(getLocalStorage)
+        setCart(getLocalStorage);
       }
       else{
-        alert("The smallest quantity is 1")
+        alert("The smallest quantity is 1");
       }
-  }
+  };
 
   const handleRemove = (index) => {
-        const getLocalStorage = JSON.parse(localStorage.getItem('item11'))
+        const getLocalStorage = JSON.parse(localStorage.getItem('item11'));
         if(confirm("Are you sure you want to remove this item")){ 
           getLocalStorage.splice(index,1)
         }
@@ -72,12 +92,11 @@ const CartProvider = (props) => {
         setTimeout(() => {
             setLoading(false)
         } , 1000)
-  }
+  };
 
   const handleDeleteAll = () => {
     setCart([])
-  
-  }
+  };
 
   useEffect(() => {
     if(cart != []){
@@ -85,9 +104,9 @@ const CartProvider = (props) => {
       for(let i = 0; i< cart?.length; i++){
         total += cart[i]?.quantity * cart[i]?.data?.salePrice
       }
-      setTotal(total)
+      setTotal(total);
     }
-  })
+  });
 
 
 
@@ -105,6 +124,9 @@ const CartProvider = (props) => {
     reduceCartNumber,
     total,
     setTotal,
+    quantity,
+    setQuantity,
+    quantityInCart,
     ...props,
   };
 
@@ -116,4 +138,4 @@ const CartProvider = (props) => {
 
 }
 
-export default CartProvider
+export default CartProvider;
