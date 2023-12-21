@@ -44,7 +44,7 @@ export default function Cart({ props }) {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [company, setCompany] = useState(true);
-  const [value, setValue] = useState(false);
+  const [value, setValue] = useState(true);
   console.log("value43", value);
 
   const schema = yup.object().shape({
@@ -96,9 +96,14 @@ export default function Cart({ props }) {
     }
   };
 
-  const handleQuantityInCart = (index) => {
-    quantityInCart(index);
-  };
+  useEffect((index) => {
+    if(cart[index]?.data?.quantity > cart[index]?.quantity){
+      setValue(false)
+    }
+    else {
+      setValue(true)
+    }
+  },[])
 
   return (
     <>
@@ -148,8 +153,13 @@ export default function Cart({ props }) {
                     <input
                       type=" number"
                       className="w-10 h-8 border border-slate-500 relative mt-1"
-                      value={quantity}
-                      onClick={() => handleQuantityInCart(index)}
+                      value={
+                        value ? (
+                          row?.quantity
+                        ): (
+                          row?.data?.quantity
+                        )
+                      }
                     />
                     <div
                       className="border border-slate-500 w-8 h-8 mt-1"
