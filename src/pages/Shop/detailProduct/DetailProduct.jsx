@@ -8,15 +8,15 @@ import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import { CleaningServices } from "@mui/icons-material";
 
 import { toast } from "react-toastify";
+import CoreInputQuantityProduct from "../../../@core/components/inputs/CoreInputQuantityProduct";
 function DetailProduct(props) {
   const { detailProductData } = props;
-  const { cartItems,setCartItems, addToCart } = useCartContext();
-  const [purchaseQuantity, setPurchaseQuantity] = useState(1)
-  console.log('purchaseQuantiy', purchaseQuantity)
+  const { cartItems, setCartItems, addToCart } = useCartContext();
+  const [purchaseQuantity, setPurchaseQuantity] = useState(1);
+  console.log("purchaseQuantiy", purchaseQuantity);
   console.log(detailProductData);
   const backgroundImageStyle = {
-    backgroundImage:
-      "url('/images/product/background_offer_detail.png')",
+    backgroundImage: "url('/images/product/background_offer_detail.png')",
     backgroundSize: "cover",
     backgroundPosition: "center",
   };
@@ -27,39 +27,46 @@ function DetailProduct(props) {
     return [];
   }, [JSON.stringify(detailProductData)]);
 
-  const  handleAddToCart = ()=>{
-    const existedItem = cartItems?.find((item) => item?.id === detailProductData?.id)
-    if(!existedItem) {
-        if(purchaseQuantity > detailProductData?.quantity){
-          toast.error(`Số lượng tối đa: ${detailProductData?.quantity}`, {
+  const handleAddToCart = () => {
+    const existedItem = cartItems?.find(
+      (item) => item?.id === detailProductData?.id
+    );
+    if (!existedItem) {
+      if (purchaseQuantity > detailProductData?.quantity) {
+        toast.error(`Số lượng tối đa: ${detailProductData?.quantity}`, {
           position: toast.POSITION.TOP_CENTER,
         });
-        } else{
-          toast.success('Đã có trong giỏ hàng', {
-           position: toast.POSITION.TOP_CENTER,
-         });
-          addToCart({id: detailProductData?.id, purchaseQuantity: purchaseQuantity, checked: false})
-        }
-    } 
-    else{
-      if(purchaseQuantity > detailProductData?.quantity){
-          toast.error(`Số lượng tối đa: ${detailProductData?.quantity}`, {
+      } else {
+        toast.success("Đã có trong giỏ hàng", {
           position: toast.POSITION.TOP_CENTER,
-        })
-      }else{
-          toast.success('Đã có trong giỏ hàng', {
-           position: toast.POSITION.TOP_CENTER,
-         });
-         const newPurchaseQuantity = existedItem.purchaseQuantity + purchaseQuantity;
-           const newCartItems = cartItems.map((item) =>{
-             if(item.id == existedItem.id){
-               return {...item, purchaseQuantity: newPurchaseQuantity}
-             } return item;
-           })
-           setCartItems(newCartItems);
-        }
+        });
+        addToCart({
+          id: detailProductData?.id,
+          purchaseQuantity: purchaseQuantity,
+          checked: false,
+        });
+      }
+    } else {
+      if (purchaseQuantity > detailProductData?.quantity) {
+        toast.error(`Số lượng tối đa: ${detailProductData?.quantity}`, {
+          position: toast.POSITION.TOP_CENTER,
+        });
+      } else {
+        toast.success("Đã có trong giỏ hàng", {
+          position: toast.POSITION.TOP_CENTER,
+        });
+        const newPurchaseQuantity =
+          existedItem.purchaseQuantity + purchaseQuantity;
+        const newCartItems = cartItems.map((item) => {
+          if (item.id == existedItem.id) {
+            return { ...item, purchaseQuantity: newPurchaseQuantity };
+          }
+          return item;
+        });
+        setCartItems(newCartItems);
+      }
     }
-  }
+  };
   return (
     <div className="flex justify-between bg-[#fff] mt-8 mb-8">
       <div className="w-1/2">
@@ -116,7 +123,13 @@ function DetailProduct(props) {
 
         <div className="product_addToCartBtns flex items-center mt-4">
           <p className="mr-3">Số lượng:</p>
-          <CoreNumberInput purchaseQuantity = {purchaseQuantity} setPurchaseQuantity = {setPurchaseQuantity}  />
+          <CoreNumberInput
+            purchaseQuantity={purchaseQuantity}
+            setPurchaseQuantity={setPurchaseQuantity}
+          />
+
+          {/* <CoreInputQuantityProduct max={10} defaultValue={1} /> */}
+
           <a
             onClick={handleAddToCart}
             className="flex p-2 ml-3 border border-blue-500 border-solid rounded-md text-[#0a76e4] hover:bg-blue-500 hover:text-white hover:cursor-pointer"
