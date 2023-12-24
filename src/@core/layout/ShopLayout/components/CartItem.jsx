@@ -1,39 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import { DataGrid } from '@mui/x-data-grid';
-import { shopProductService } from '../../../../../src/pages/Shop/services/shopProductService';
 import { Box, Button, Typography } from '@mui/material';
 import {IconButton} from '@mui/material';
 import RemoveIcon from '@mui/icons-material/Remove';
 import AddIcon from '@mui/icons-material/Add';
 import { toast } from 'react-toastify';
+import { useCartContext} from '../../../../../src/@core/provider/CartProvider';
+import NavBar from './NavBar';
+import DeleteIcon from '@mui/icons-material/Delete';
 function CartItem() {
-
-  const [listData, setListData] = useState([]);
+  const {listData ,setListData} = useCartContext() ;
+  // const [listData, setListData] = useState([]);
+  console.log('ancnc',listData);
   const cartDataString = localStorage.getItem('Cart');
-  const cartData = JSON.parse(cartDataString);
-  console.log('abc', cartData);
-  const idsArray = cartData.map(item => item.id).filter(id => id);
-  
-
-  
-  useEffect(() => {
-    const fetchAllProducts = async () => {
-      try {
-        // Sử dụng Promise.all để gọi nhiều API đồng thời
-        const results = await Promise.all(idsArray.map(idItem => shopProductService.find(idItem)));
-        // Xử lý kết quả, nếu cần
-        const productData = results.map(result => result.data);
-        setListData(productData);      
-        console.log('All product details:', results);
-      } catch (error) {
-        console.error('Error fetching product details:', error);
-      }
-    };
-  
-    // Gọi hàm fetchAllProducts
-    fetchAllProducts();
-  }, []);
-console.log('567cm',listData);
+const cartData = JSON.parse(cartDataString);
+console.log('abc', cartData);
+const idsArray = cartData?.map(item => item.id).filter(id => id) || [];
+console.log('abc2', idsArray);
 
 
 
@@ -74,25 +57,30 @@ const handleDecrementCartItem = (cartItem) => {
     );
   }
 };
+let quantities = [] ;
+if (cartData) {
+quantities = cartData.map(item => item.quantity)
+}
 
+useEffect(() =>{
+
+},[quantities])
 
 
 
 const handleRemoveItem = (id) => {
-  // Xóa sản phẩm có id tương ứng từ giỏ hàng
+
   const updatedCart = cartData.filter(item => String(item.id) !== String(id));
-
-  // Cập nhật localStorage
   localStorage.setItem('Cart', JSON.stringify(updatedCart));
-
-  // Cập nhật state để render lại component
   setListData(updatedCart);
-  window.location.reload();
+
 };
 const totalAmount = listData.reduce((total, product) => {
-  const cartItem = cartData.find(item => String(item.id) === String(product.id));
 
-  // Đảm bảo sản phẩm có trong giỏ hàng trước khi tính toán
+  console.log('567rh', cartData) ;
+  console.log('jfjfjjf' , String(product.id));
+const cartItem = cartData.find(item => String(item.id) === String(product.id));
+
   if (cartItem) {
     total += cartItem.quantity * product.salePrice;
   }
@@ -100,10 +88,10 @@ const totalAmount = listData.reduce((total, product) => {
   return total;
 }, 0);
 const handleDeleteAll = () => {
-  // Xóa toàn bộ dữ liệu trong localStorage
+  
   localStorage.removeItem('Cart');
 
-  // Cập nhật state để render lại component
+ 
   setListData([]);
 };
   const columns = [
@@ -159,9 +147,8 @@ const handleDeleteAll = () => {
         <Box>
              <Button
             variant="contained"
-            color="error"
             onClick={() => handleRemoveItem(String(params.row.id))}
-
+            startIcon={<DeleteIcon />}
           >
             Delete
           </Button>
@@ -171,7 +158,8 @@ const handleDeleteAll = () => {
     ];
 
     return (
-      <>
+      <> 
+        <NavBar/>
         <Box sx={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', padding: '20px' }}>
     
           {/* Thêm nút hoặc bất kỳ thành phần điều hướng hoặc thêm mới nếu cần */}
@@ -186,13 +174,7 @@ const handleDeleteAll = () => {
               checkboxSelection
             />
               <Typography>Tổng tiền:{totalAmount}</Typography>
-              <Button
-          variant="contained"
-          color="error"
-          onClick={handleDeleteAll} 
-        >
-          DeleteAll
-        </Button>
+              <Button variant="contained" href='./thanhtoan'>Thanh Toán</Button>
         </div>
       
       </>

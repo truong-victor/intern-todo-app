@@ -10,7 +10,9 @@ import { blue } from '@mui/material/colors';
 const ShopLayout = (props) => {
 
   return (
+    <Box>
     <Box className="relative flex flex-col"> 
+    
       <NavBar/>
     
       <Header />
@@ -18,6 +20,7 @@ const ShopLayout = (props) => {
     
      
       <Footer />
+    </Box>
     </Box>
   );
 };

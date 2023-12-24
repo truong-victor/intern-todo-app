@@ -1,149 +1,168 @@
-import React, { useState } from 'react';
-import { Box, IconButton, InputAdornment, TextField, Typography } from '@mui/material';
-import SearchIcon from '@mui/icons-material/Search';
-import DesktopWindowsIcon from '@mui/icons-material/DesktopWindows';
-import CallIcon from '@mui/icons-material/Call';
-import NewspaperIcon from '@mui/icons-material/Newspaper';
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+
 import MenuIcon from '@mui/icons-material/Menu';
-import { List, ListItem, ListItemText } from '@mui/material';
-import LaptopChromebookIcon from '@mui/icons-material/LaptopChromebook';
+import Image from 'mui-image'
+import {MenuItem} from '@mui/material';
+import {Badge} from '@mui/material';
+import { Box } from "@mui/material"
+import LocationOnIcon from '@mui/icons-material/LocationOn';
+import NotificationsIcon from "@mui/icons-material/Notifications";
+import Paper from '@mui/material/Paper';
+import InputBase from '@mui/material/InputBase';
+import IconButton from '@mui/material/IconButton';
+import SearchIcon from '@mui/icons-material/Search';
+import ComputerIcon from '@mui/icons-material/Computer';
+import PhoneIcon from '@mui/icons-material/Phone';
+import NewspaperIcon from '@mui/icons-material/Newspaper';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';     
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import { useNavigate } from 'react-router';
+import { PiComputerTower } from "react-icons/pi";
+import { useState , useEffect } from 'react';
+import {  Button, Typography } from '@mui/material';
+import { useCartContext} from '../../../../../src/@core/provider/CartProvider';
+function NavBar(){
+  const {cartData} = useCartContext() ;
+    const navigate = useNavigate() ; 
+    const [searchProduct, searchList] = useState({
+      searchText:"",
+      searchResult : [] , 
+    }) ;
+    
+    
 
-// ... (các import khác)
-
-function NavBar() {
-  const [isHovered, setIsHovered] = useState(false);
-  const [isMenuHovered, setIsMenuHovered] = useState(false);
-  const [isSubMenuHovered, setIsSubMenuHovered] = useState(false);
-
-  const handleMouseEnter = () => {
-    setIsHovered(true);
-  };
-
-  const handleMouseLeave = () => {
-    setIsHovered(false);
-  };
-
+    const [cartItemCount, setCartItemCount] = useState(0);
+    let quantities = [] ;
+    if (cartData) {
+    quantities = cartData.map(item => item.quantity)
+    }
  
+   
+  useEffect(() => {
+    const cartDataString = localStorage.getItem('Cart');
+    const cartData = JSON.parse(cartDataString);
+    const totalItems = cartData ? cartData.reduce((acc, item) => acc + item.quantity, 0) : 0;
+    setCartItemCount(totalItems);
+    if (cartData) {    
+     
+    }
+  }, [quantities]); 
 
-  const handleSubMenuMouseEnter = () => {
-    setIsSubMenuHovered(true);
-  };
+    return (
+      <Box className="p-3 w-full h-[60px] lg:px-[150px] lg:flex-nowrap flex items-center justify-between bg-[#0f5b99]">
+        <MenuIcon sx={{"@media screen and (min-width:1024px)": {display: 'none'}}}/>
+          <Image
+            fit="contain"
+            width={340}
+            className="order-1 hover:cursor-pointer"
+            src="./../../../../../public/logo_2023.png"
+            alt="Logo"
+            onClick={() => {
+              navigate("/");
+            }}
+          />
 
-  const handleSubMenuMouseLeave = () => {
-    setIsSubMenuHovered(false);
-  };
-
-  return (
-    <Box sx={{ zIndex: 1, position: 'relative', background: '#6699FF', height: '180px' }}>
-      <Box display="flex" sx={{ marginLeft: '20px', height: '65%' }} alignItems="center" justifyContent="center" p={2}>
-        <TextField
-          sx={{ backgroundColor: 'white', width: '500px' }}
-          label="Bạn cần tìm gì?"
-          variant="outlined"
-          InputProps={{
-            endAdornment: (
-              <InputAdornment position="end">
-                <IconButton color="#000" aria-label="search">
-                  <SearchIcon />
-                </IconButton>
-              </InputAdornment>
-            ),
-          }}
+        <LocationOnIcon
+          sx={{display: 'none',"@media screen and (min-width:1024px)": {display: 'block'},}}
+          fontSize="large"
+          className="order-2 lg:block lg:ml-8 lg:p-[6px] lg:border-white lg:border-2 lg:rounded-full lg:text-white "
         />
-        <Box sx={{ marginLeft: '30px' }} display="flex" gap={2}>
-          <div>
-            <DesktopWindowsIcon />
-            <Typography variant="caption">Desktop</Typography>
-          </div>
-          <div>
-            <CallIcon />
-            <Typography variant="caption">Call</Typography>
-          </div>
-          <div>
-            <NewspaperIcon />
-            <Typography variant="caption">Newspaper</Typography>
-          </div>
-          <div>
-            <ShoppingCartIcon />
-            <Typography variant="caption">Shopping Cart</Typography>
-          </div>
-          <div>
-            <AccountCircleIcon />
-            <Typography variant="caption">Account</Typography>
-          </div>
-        </Box>
-      </Box>
-      <Box
-        sx={{
-          backgroundColor: '#6699CC',
-          height: '35%',
-        }}
-      >
-        <Box
+        <Paper
+          component="form"
           sx={{
-            width: '230px',
-            color: '#6699CC',
-            backgroundColor: 'white',
-            borderRadius: '5px',
-            height: '35px',
-            paddingTop: '5px',
+            display:"none",
+            p: "2px 4px",
+            alignItems: "center",
+            width: '100%',
+            height: 40,
+            order: 8,
+            "@media screen and (min-width:1024px)": {order: 3, display: 'flex'},
           }}
-          onMouseEnter={handleMouseEnter}
-          onMouseLeave={handleMouseLeave}
+          className='w-[430px] lg:ml-2'
         >
-          <MenuIcon sx={{ marginBottom: '5px' }} />
-          <Typography variant="caption" sx={{ fontSize: '17px' }}>
-            DANH MỤC SẢN PHẨM
-          </Typography>
-          {isHovered && (
-            <Box
-              sx={{
-                backgroundColor: 'white',
-                borderRadius: '5px',
-                width: '230px',
-                height: '200px',
-                color: 'black',
-                display: 'flex',
-                flexDirection: 'column',
-                gap: '20px',
-              }}
-             
-            >
-              <List>
-                <ListItem>
-                  <DesktopWindowsIcon />
-                  <ListItemText primary="PC Đồ Họa-Làm Việc" />
-                </ListItem>
-                <ListItem
-                  onMouseEnter={handleSubMenuMouseEnter}
-                  onMouseLeave={handleSubMenuMouseLeave}
-                >
-                  <LaptopChromebookIcon />
-                  <ListItemText primary="LapTop-Phụ Kiện" />
-                  {isSubMenuHovered && (
-                    <Box
-                      sx={{
-                        backgroundColor: 'blue',
-                        borderRadius: '5px',
-                        width: '200px',
-                        height: '20px',
-                        color: 'black',
-                      }}
-                    >
-                      {/* Nội dung danh sách sản phẩm của "LapTop-Phụ Kiện" */}
-                    </Box>
-                  )}
-                </ListItem>
-              </List>
-            </Box>
-          )}
-        </Box>
+          <InputBase
+            sx={{ ml: 1, flex: 1, }}
+            placeholder="Search"
+            inputProps={{ "aria-label": "search google maps" }}
+          />
+          <IconButton type="button" sx={{ p: "10px" }} 
+          aria-label="search"
+          value={searchProduct}
+           onChange={(e) => setSearchText(e.target.value)}
+          >
+            <SearchIcon />
+          </IconButton>
+        </Paper>
+
+        <IconButton
+          type="button"
+          sx={{ marginLeft:'10px' , p: "10px", display: 'none ',"@media screen and (min-width:1024px)": {display: 'flex'} }}
+          className=" lg:flex-col order-4"
+          aria-label="search"
+        >
+          <PiComputerTower className="text-white" />
+          <span className="w-[80px] lg:w-full text-sm lg:text-xs text-white lg:font-medium">
+            Xây dựng cấu hình
+          </span>
+        </IconButton>
+        <IconButton
+          type="button"
+          sx={{ p: "10px", display: 'none',"@media screen and (min-width:1024px)": {display: 'flex'}, }}
+          aria-label="search"
+          className="lg:flex lg:flex-col order-5"
+        >
+          <PhoneIcon className="text-white" />
+          <span className="text-xs text-white font-medium">
+            Khách Hàng Liên Hệ
+          </span>
+        </IconButton>
+        <IconButton
+          className="lg:flex lg:flex-col order-6"
+          type="button"
+          sx={{ p: "10px",display: 'none',"@media screen and (min-width:1024px)": {display: 'flex'}, }}
+          aria-label="search"
+        >
+          <NewspaperIcon className="text-white" />
+          <span className="text-xs text-white font-medium">
+            Tin Tức Công Nghệ
+          </span>
+        </IconButton>
+        <IconButton
+          onClick={() => {
+            navigate("/cartitem");
+          }}
+          size="large"
+          aria-label="show 17 new notifications"
+          className="flex flex-col order-7"
+        >
+        
+        <ShoppingCartIcon className="text-white" />
+      {cartItemCount > 0 && (
+        <span className="text-xs text-white font-medium absolute bg-red-500 rounded-full px-2" style={{marginBottom:'45px' , marginLeft:'30px'}}>
+          {cartItemCount}
+        </span>
+      )}
+           <span className="text-xs text-white font-medium">
+            Giỏ Hàng
+          </span>
+        </IconButton>
+    
+        <IconButton
+          onClick={() => {
+            navigate("/login");
+          }}
+          className="flex flex-col order-8"
+          type="button"
+          sx={{ p: "10px",display: 'none',"@media screen and (min-width:1024px)": {display: 'flex'}, }}
+          aria-label="search"
+        >
+          <AccountCircleIcon className="text-white" />
+          <span className="text-xs text-white font-medium">Tài Khoản</span>
+        </IconButton>
+        
       </Box>
-    </Box>
-  );
+    );
 }
+
 
 export default NavBar;
 

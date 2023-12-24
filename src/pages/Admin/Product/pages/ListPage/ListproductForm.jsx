@@ -12,7 +12,7 @@ function ListproductForm() {
 
   const [paging, setPaging] = useState({
     page: 1,
-    pageSize: 10,
+    pageSize: 100,
   });
 
   const {

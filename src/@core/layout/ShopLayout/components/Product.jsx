@@ -1,83 +1,60 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Typography } from '@mui/material';
+import { Box, Typography, Pagination } from '@mui/material';
 import { Link } from 'react-router-dom';
-import { shopProductService } from "./../../../../pages/Shop/services/shopProductService";  // Đặt đúng đường dẫn tới shopProductService
+import { shopProductService } from './../../../../pages/Shop/services/shopProductService';
 
 const Product = (props) => {
   const [products, setProducts] = useState([]);
-  const [paging, setPaging] = useState({ page: 1, pageSize: 10 });
+  const [paging, setPaging] = useState({ page: 1, pageSize: 5 });
+  const [totalPages, setTotalPages] = useState(0);
+  const fetchData = async () => {
+    try {
+      const result = await shopProductService.search({
+        params: { page: paging.page, pageSize: paging.pageSize },
+      });
 
+      setProducts(result.data.dataTable);
+      setPaging(result.data.paging);
+      console.log('test' , result.data) ;
+      setTotalPages(Math.floor(result.data.totalCount / paging.pageSize) + 1);
+      console.log('abcbcb' , paging);
+    } catch (error) {
+      console.error('Error fetching products:', error);
+    }
+  };
+
+  const handlePageClick =  () => { } ;
 
   useEffect(() => {
-    // Gọi hàm search và cập nhật state với danh sách sản phẩm
-    const fetchData = async () => {
-      try {
-        const result = await shopProductService.search({
-          params: { page: paging.page, pageSize: paging.pageSize },
-        });
+    fetchData();
+  }, [paging.page, paging.pageSize]);
+  const handleChangePage = (_, page) => {
+    setPaging((prev) => ({ ...prev, page }));
+  };
 
-        // Cập nhật state với danh sách sản phẩm, thông tin phân trang, và tổng số lượng
-        setProducts(result.data.dataTable);
-        setPaging(result.data.paging);
-      } catch (error) {
-        console.error('Error fetching products:', error);
-      }
-    };
-
-    fetchData();  // Gọi hàm fetchData khi component được tạo
-  }, [paging.page, paging.pageSize]); 
-
+console.log('567', totalPages) ;
   return (
-    <Box className="flex justify-center flex-wrap">
-    {/* Hiển thị danh sách sản phẩm */}
-    {products.map((product) => (
-      <Box
-        key={product.id}
-        className="product-item"
-        sx={{ margin: '15px', width: '300px', height: '550px', textAlign: 'center', padding: '16px', border: '1px solid #ddd', borderRadius: '8px' }}
-      >
-        {/* Hiển thị ảnh sản phẩm */}
-        <img
-          src={product.avatar}
-          alt={product.name}
-          width="300px"
-          height="200px"
-          sx={{ maxWidth: '100%', marginBottom: '8px' }}
-        />
-
-        {/* Hiển thị tên sản phẩm */}
-        <Typography variant="h6" className="product-title" sx={{ marginBottom: '4px' }}>
-        <Link to={`/detailProduct/${product.id}`}>
-          {product.name}
-          </Link>
-        </Typography>
-
-        {/* Hiển thị giá và giá giảm nếu có */}
-        {product.salePrice && (
-          <>
-            <Typography className="product-percent-price" sx={{ color: 'red', fontWeight: '600', marginBottom: '4px' }}>
-              Giảm {"10"}%
-            </Typography>
-            <Typography variant="h6" className="product-price-main" sx={{ fontWeight: '600', color: 'green', textDecoration: 'line-through' }}>
-              {product.price}đ
-            </Typography>
-            <Typography variant="h6" className="product-price-sale" sx={{ fontWeight: '600', color: 'red' }}>
-              {product.salePrice}đ
-            </Typography>
-          </>
-        )}
-        {!product.salePrice && (
-          <Typography variant="h6" className="product-price-main" sx={{ fontWeight: '600', color: 'green' }}>
-            {product.price}đ
-          </Typography>
-        )}
-      </Box>
-    ))}
-
+    <Box>
+    <Box className="flex justify-center flex-wrap" sx={{marginTop:'10px' , textAlign:'center'}}>
+      
+  {products.map((product) => (
+    <div key={product.id} className=" border border-grey-400" style={{width:'250px' }}>
+      <img  style={{ aspectRatio: '1 / 1', width: '230px', paddingLeft:'20px' }}  src={product.avatar} alt={product.name} />
+      <a href={`/detailProduct/${product.id}`}>
+        <h2>{product.name}</h2>
+      </a>
+      <p className="text-[#575757] line-through text-[14px] font-400">{product.price}</p>
+      <h3 className="font-700 text-[20px] text-[#be1f2d] font-sans-serif">{product.salePrice}</h3>
+    </div>
+  ))}
+  <div className="w-full mt-4 flex justify-center">
+    <Pagination count={totalPages} onChange={handleChangePage} />
+  </div>
+  </Box>
   </Box>
 
 
-  )
-}
+  );
+};
 
-export default Product
+export default Product;

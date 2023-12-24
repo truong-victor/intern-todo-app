@@ -10,7 +10,9 @@ import {IconButton} from '@mui/material';
 import useLocalStorage from './../hooks/useLocalStorage';
 import { useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
+import { useCartContext} from '../../../../../src/@core/provider/CartProvider';
 function ChitietSanpham() {
+  const {cartData} = useCartContext() ;
    const navigate = useNavigate() ; 
   const { id } = useParams();
   const [cart , setCart] = useLocalStorage({
@@ -21,7 +23,6 @@ function ChitietSanpham() {
     const ProductIndex = cart.findIndex(item => item.id === id);
   
     if (ProductIndex !== -1) {
-      // Sản phẩm đã tồn tại trong giỏ hàng, cập nhật số lượng
       const updatedCart = [...cart];
       updatedCart[ProductIndex].quantity += quantity;
         if (updatedCart[ProductIndex].quantity > detailProduct.quantity) {
@@ -45,7 +46,7 @@ function ChitietSanpham() {
         toast.error('Số lượng không phù hợp', {
           position: toast.POSITION.TOP_CENTER,
         });
-        return; // Dừng thực hiện tiếp theo nếu số lượng không phù hợp
+        return; 
       }
        
   
@@ -55,9 +56,7 @@ function ChitietSanpham() {
       });
     
     }
-    // setTimeout(() => {
-    //   navigate("/cartitem")
-    // }, 1000);
+   
    
   };
   
@@ -81,6 +80,10 @@ function ChitietSanpham() {
       setQuantity((prevQuantity) => prevQuantity - 1);
     }
   };
+  let quantities = [] ;
+  if (cartData) {
+  quantities = cartData.map(item => item.quantity)
+  }
 
   useEffect(() => {
     const fetchDetailProduct = async () => {
@@ -95,7 +98,7 @@ function ChitietSanpham() {
     };
 
     fetchDetailProduct();
-  }, [id]);
+  }, [quantities]);
 
   return (
     <Box>

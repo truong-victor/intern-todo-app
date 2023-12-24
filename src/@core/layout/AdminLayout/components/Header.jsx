@@ -12,7 +12,6 @@ import AuthProvider from '../../../provider/AuthProvider';
 const Header = () => {
   const { user ,logout } = useAuthContext();
   const handleLogout = () => {
-    // Kích hoạt hàm logout từ context
     logout();
   };
   return (
