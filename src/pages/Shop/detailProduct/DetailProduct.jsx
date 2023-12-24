@@ -30,34 +30,36 @@ function DetailProduct(props) {
   const  handleAddToCart = ()=>{
     const existedItem = cartItems?.find((item) => item?.id === detailProductData?.id)
     if(!existedItem) {
-        if(purchaseQuantity > detailProductData?.quantity){
-          toast.error(`Số lượng tối đa: ${detailProductData?.quantity}`, {
-          position: toast.POSITION.TOP_CENTER,
-        });
-        } else{
-          toast.success('Đã có trong giỏ hàng', {
-           position: toast.POSITION.TOP_CENTER,
-         });
+        // if(purchaseQuantity > detailProductData?.quantity){
+        //   toast.error(`Số lượng còn lại: ${detailProductData?.quantity}`, {
+        //   position: toast.POSITION.TOP_CENTER,
+        // });
+        // } else{
+        //   toast.success('Đã có trong giỏ hàng', {
+        //    position: toast.POSITION.TOP_CENTER,
+        //  });
+          toast.success('Đã có trong giỏ hàng')
           addToCart({id: detailProductData?.id, purchaseQuantity: purchaseQuantity, checked: false})
-        }
+        // }
     } 
     else{
-      if(purchaseQuantity > detailProductData?.quantity){
-          toast.error(`Số lượng tối đa: ${detailProductData?.quantity}`, {
-          position: toast.POSITION.TOP_CENTER,
-        })
-      }else{
-          toast.success('Đã có trong giỏ hàng', {
-           position: toast.POSITION.TOP_CENTER,
-         });
+      // if(purchaseQuantity > detailProductData?.quantity){
+      //     toast.error(`Số lượng tối đa: ${detailProductData?.quantity}`, {
+      //     position: toast.POSITION.TOP_CENTER,
+      //   })
+      // }else{
+      //     toast.success('Đã có trong giỏ hàng', {
+      //      position: toast.POSITION.TOP_CENTER,
+      //    });
          const newPurchaseQuantity = existedItem.purchaseQuantity + purchaseQuantity;
            const newCartItems = cartItems.map((item) =>{
              if(item.id == existedItem.id){
                return {...item, purchaseQuantity: newPurchaseQuantity}
              } return item;
            })
+           toast.success('Đã có trong giỏ hàng')
            setCartItems(newCartItems);
-        }
+        // }
     }
   }
   return (
@@ -116,7 +118,7 @@ function DetailProduct(props) {
 
         <div className="product_addToCartBtns flex items-center mt-4">
           <p className="mr-3">Số lượng:</p>
-          <CoreNumberInput purchaseQuantity = {purchaseQuantity} setPurchaseQuantity = {setPurchaseQuantity}  />
+          <CoreNumberInput max= {detailProductData?.quantity} purchaseQuantity = {purchaseQuantity} setPurchaseQuantity = {setPurchaseQuantity}  />
           <a
             onClick={handleAddToCart}
             className="flex p-2 ml-3 border border-blue-500 border-solid rounded-md text-[#0a76e4] hover:bg-blue-500 hover:text-white hover:cursor-pointer"

@@ -9,6 +9,8 @@ const useLocalStorage = props =>{
         }
         return initValue});
 
+        
+
     useEffect(()=>{
         localStorage.setItem(key, JSON.stringify(state))
     },[JSON.stringify(state)]);         

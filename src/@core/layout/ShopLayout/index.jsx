@@ -5,7 +5,6 @@ import CustomSeparator from "./components/BreadCrumbs";
 import FixedBanner from "./components/FixedBanner";
 import { useParams } from "react-router";
 const ShopLayout = (props) => {
-  const {id} = useParams();
   return (
     <Box className="relative flex flex-col">
       <Header />

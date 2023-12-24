@@ -40,8 +40,8 @@ function CartList(){
           <label htmlFor="checkedItem"> 
             <input checked={isCheckedAll} onChange={handleCheckedAll} type="checkbox" name="" id="checkedItem" /> {' '}Chọn tất cả
           </label>
-            <Button onClick={removeAll}  className="h-[40px] hover:text-red-500" variant="outlined" startIcon={<DeleteIcon />}>
-              Delete All
+            <Button onClick={removeAll} sx={{textTransform: 'none'}}  className="h-[30px] hover:text-red-500" variant="outlined" startIcon={<DeleteIcon />}>
+              Xóa mục đã chọn
             </Button>
         </div>
 

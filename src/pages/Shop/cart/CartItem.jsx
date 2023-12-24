@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import { Navigate } from 'react-router';
 import CartNumberInput from './CartNumberInput';
@@ -38,4 +38,4 @@ function CartItem(props){
       </div>
     );
 }
-export default CartItem
+export default React.memo(CartItem)

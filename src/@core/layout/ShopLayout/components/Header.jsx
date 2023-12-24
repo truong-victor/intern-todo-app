@@ -44,6 +44,9 @@ function Header(){
         />
          <SearchFilter />
         <IconButton
+          onClick={() => {
+            navigate("/productList");
+          }}
           type="button"
           sx={{ p: "10px", display: 'none ',"@media screen and (min-width:1024px)": {display: 'flex'} }}
           className=" lg:flex-col order-4"

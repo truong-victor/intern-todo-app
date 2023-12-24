@@ -25,7 +25,7 @@ const MenuProps = {
 };
 
 
-export default function SelectDistricts(props) {
+function SelectDistricts(props) {
   const [districts, setDistricts] = useState([]);
 
   const {control, name} = props
@@ -90,3 +90,4 @@ export default function SelectDistricts(props) {
   );
 }
 
+export default React.memo(SelectDistricts)

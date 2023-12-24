@@ -1,5 +1,7 @@
+import { ca } from "date-fns/locale";
 import { createContext, useContext, useEffect, useState, useMemo } from "react";
 import { toast } from "react-toastify";
+import useLocalStorage from "../../pages/Shop/cart/hooks/useLocalStorage";
 
 const CartContext = createContext();
 export const useCartContext = () => useContext(CartContext);
@@ -7,16 +9,18 @@ export const useCartContext = () => useContext(CartContext);
 function CartProvider(props) {
   const cartLocal = localStorage.getItem('cart');
   const [cartItems, setCartItems] = useState(JSON.parse(cartLocal)? JSON.parse(cartLocal) : [] );
-  const [totalPrice, setTotalPrice] = useState(0);
   const [isCheckedAll, setIsCheckedAll] = useState(false)
   const [selectedCity, setSelectedCity] = useState('')
+
+
+  // const [cart,setCart] = useLocalStorage()
   
-  const updateTotalPrice =()=>{
+  const totalPrice = useMemo(()=>{
     const sumPrice = cartItems.filter((item) => item.checked).reduce((totalPrice, item) =>{
       return totalPrice + parseInt(item?.purchaseQuantity * item?.salePrice)
     }, 0)
-    setTotalPrice(sumPrice);
-  }
+    return sumPrice
+  }, [JSON.stringify(cartItems)])
 
 
   const addToCart = (clickedItem) => {
@@ -24,13 +28,15 @@ function CartProvider(props) {
   };
 
   const removeItem = (id)=>{
+    console.log('ooo');
     const newCartItems = cartItems.filter(item =>  item?.id !== id)
     setCartItems(newCartItems)
   }
   const removeAll = ()=>{
-    console.log('test')
     setCartItems([])
   }
+
+  console.log('aaa');
 
 
   const toggleCheckedItem = (id)=>{
@@ -39,17 +45,15 @@ function CartProvider(props) {
   }
 
   const updateCheckedAll = ()=>{
-    const newCartItems = cartItems.map(item => {
-      return {...item, checked: isCheckedAll}
-    })
-    setCartItems(newCartItems)
+    setCartItems((prev) => {
+      return prev.map((item) => ({ ...item, checked: isCheckedAll }));
+    });
   }
   
   useEffect(()=>{
     localStorage.setItem('cart', JSON.stringify(cartItems))
-  }, [cartItems])
+  }, [JSON.stringify(cartItems)])
 
-  useEffect(updateTotalPrice,[cartItems])
   useEffect(updateCheckedAll, [isCheckedAll])
   const context = {
     cartItems,

@@ -12,7 +12,7 @@ export const shopRoute = [
     component: <LazyHome />,
   },
   {
-    path: "/product",
+    path: "/productList",
     component: <LazyProduct />,
   },
   {
