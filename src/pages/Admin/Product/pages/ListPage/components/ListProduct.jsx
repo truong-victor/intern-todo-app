@@ -2,6 +2,7 @@ import { useRequest } from "ahooks";
 import { useEffect, useState } from "react";
 import { productService } from "../../../services/productService";
 import {
+  Button,
   CircularProgress,
   IconButton,
   Pagination,
@@ -15,9 +16,14 @@ import {
 } from "@mui/material";
 import { Add as AddIcon, Delete as DeleteIcon, Edit as EditIcon } from "@mui/icons-material";
 import { useNavigate } from "react-router";
+import { useListImageDialog } from "./hooks/useListImageDialog";
 
 const ListProduct = (props) => {
   const navigate = useNavigate();
+  const {handleCloseListImageDialog,
+    handleOpenListImageDialog,
+    renderListImageDialog} = useListImageDialog({navigate});
+  
   const [paging, setPaging] = useState({
     page: 1,
     pageSize: 10,
@@ -101,9 +107,9 @@ const ListProduct = (props) => {
                   <TableCell align="center" sx={{ border: "1px solid #ddd", textAlign: "center" }}>
                     <img src={row?.avatar} alt="" width="90" height="60" />
                   </TableCell>
-                  
+                  {/* anh chi tiet */}
                   <TableCell align="center" sx={{ border: "1px solid #ddd", textAlign: "center" }}>
-                    <img src={row?.avatar} alt="" width="60" height="60" />
+                    <Button variant="contained" color="primary" onClick={() => handleOpenListImageDialog(JSON.parse(row?.listImage))}>Xem danh sách ảnh </Button>
                   </TableCell>
                   <TableCell align="center" sx={{ border: "1px solid #ddd", textAlign: "center" }}>
                     {row?.quantity}
@@ -145,7 +151,7 @@ const ListProduct = (props) => {
       >
         <AddIcon /> Thêm sản phẩm
       </IconButton>
-      
+      {renderListImageDialog()}
     </>
   );
 };

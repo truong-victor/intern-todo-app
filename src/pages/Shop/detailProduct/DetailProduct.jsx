@@ -18,6 +18,12 @@ function DetailProduct(props) {
     initValue: [],
   });
   const handleAddCart = () => {
+    if (!quantityItem || isNaN(quantityItem) || quantityItem <= 0 ) {
+      toast.error('Vui lòng nhập số lượng',{
+       position: toast.POSITION.TOP_CENTER, 
+      });
+      return; 
+    }
     const ProductIndex = cart.findIndex(item => item.id === id);
   
     if (ProductIndex !== -1) {
@@ -162,7 +168,7 @@ function DetailProduct(props) {
               >
                 -
               </button>
-              <input
+              <input 
                 className="w-16 p-2 text-center border border-gray-300 "
                 type="number"
                 min="1"

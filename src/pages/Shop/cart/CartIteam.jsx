@@ -194,6 +194,6 @@ const handleInputChange = (cartItem, value) => {
         <CheckForm totalAmount={totalAmount} cartData={cartData}/>
       </>
     );
-  }
+}
 
 export default CartIteam;

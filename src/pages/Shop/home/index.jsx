@@ -6,7 +6,6 @@ const Home = (props) => {
     <ShopLayout>
       <Slider />
       <Product />
-      {/* <CoreUploadFile name="upload" type="file" /> */}
     </ShopLayout>
   );
 };

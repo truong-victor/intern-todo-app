@@ -1,6 +1,6 @@
 function Banner() {
     return(
-        <div className="w-full flex justify-between fixed top-[75px] z-[-10]">
+        <div className="w-full flex justify-between fixed top-[127px] z-[-10]">
             <div className="fixed-left">
                 <img className="w-[140px] rounded-xl" 
                 src="/public/images/home/fixed-left.jpg" alt="" />
