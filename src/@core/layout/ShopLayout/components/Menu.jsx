@@ -10,7 +10,7 @@ import PrintSharpIcon from '@mui/icons-material/PrintSharp';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 function Menu() {
   return (
-    <div className='w-full bg-[#005091] flex justify-center'>
+    <div className='w-full bg-[#005091] flex justify-center '>
         <div className='w-[80%] h-[50px] flex items-center justify-between'>
             <div>
                 <section>

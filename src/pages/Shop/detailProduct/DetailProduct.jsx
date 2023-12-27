@@ -125,7 +125,7 @@ function DetailProduct(props) {
             {detailProductData?.salePrice.toLocaleString()} đ
           </p>
           <p className="text-[16px] font-[400] text-red-700">
-            TIết kiệm{" "}
+            Tiết kiệm{" "}
             {Math.abs(
               detailProductData?.price - detailProductData?.salePrice
             ).toLocaleString()}

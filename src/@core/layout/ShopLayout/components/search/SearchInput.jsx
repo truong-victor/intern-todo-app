@@ -50,7 +50,6 @@ function SearchFilter() {
             placeholder="Search..."
             inputProps={{ "aria-label": "search google maps" }}
           />
-
           <IconButton type="button" sx={{ p: "10px" }} aria-label="search">
             {loadingListData ? <CircularProgress/> : <SearchIcon />}
           </IconButton>
