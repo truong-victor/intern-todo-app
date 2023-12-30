@@ -2,6 +2,7 @@ import { useRequest } from "ahooks";
 import { useEffect, useState } from "react";
 import { productService } from "../../../services/productService";
 import {
+  Button,
   CircularProgress,
   Icon,
   IconButton,
@@ -15,16 +16,24 @@ import {
   TableRow,
 } from "@mui/material";
 import { useNavigate } from "react-router";
+import { useListImageDialog } from "../hooks/useListImageDialog";
 
 const ListProduct = (props) => {
   const navigate = useNavigate();
+
+  const {
+    handleCloseListImageDialog,
+    handleOpenListImageDialog,
+    renderListImageDialog,
+  } = useListImageDialog({ navigate });
+
   const [paging, setPaging] = useState({
     page: 1,
     pageSize: 5,
   });
 
   const {
-    data: listData, 
+    data: listData,
     loading: loadingListData,
     run: fetchListData,
   } = useRequest(productService.search, {
@@ -34,15 +43,15 @@ const ListProduct = (props) => {
   useEffect(() => {
     fetchListData({ params: paging });
   }, [JSON.stringify(paging)]);
-  
+
   const handleChangePage = (_, page) => {
     setPaging((prev) => ({ ...prev, page }));
   };
 
-  const deleteProduct = async (id) =>{
+  const deleteProduct = async (id) => {
     await productService.remove(id);
     fetchListData({ params: paging });
-  }
+  };
   return (
     <>
       <Pagination
@@ -91,7 +100,18 @@ const ListProduct = (props) => {
                   <TableCell align="right">
                     <img src={row?.avatar} className="w-[60px] aspect-square" />
                   </TableCell>
-                  <TableCell align="right">1</TableCell>
+                  <TableCell align="right">
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      onClick={() =>
+                        // handleOpenListImageDialog(JSON.parse(row?.listImage))
+                        handleOpenListImageDialog(row?.id)
+                      }
+                    >
+                      Xem danh sách ảnh
+                    </Button>
+                  </TableCell>
                   <TableCell align="right">
                     {
                       <div
@@ -119,6 +139,7 @@ const ListProduct = (props) => {
           </TableBody>
         </Table>
       </TableContainer>
+      {renderListImageDialog()}
     </>
   );
 };
