@@ -12,4 +12,8 @@ export const authRoute = [
     path: "/login",
     component: <LazyLogin />,
   },
+  {
+    path: "/forgot-password",
+    component: <> for got pass word</>,
+  },
 ];
