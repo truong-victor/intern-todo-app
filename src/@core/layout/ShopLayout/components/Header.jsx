@@ -28,11 +28,15 @@ function Header(){
   const navigate = useNavigate();
     return(
         <Box className="w-full h-[60px] px-[150px] flex items-center justify-between bg-[#0F5B99]" >
-                <Image fit='contain'
-                width={170} className='' src="/images/logo_2023.png" alt="Logo" 
-                onClick={() => {
-                navigate("/");
-                }}/>
+                <Link to="/">
+                    <Image
+                    fit="contain"
+                    width={170}
+                    className=""
+                    src="/images/logo_2023.png"
+                    alt="Logo"
+                    />
+                </Link>
             <LocationOnIcon fontSize='large' className='ml-8 p-[6px] border-white border-2 rounded-full text-white '/>
             {/* <Paper component="form" sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: 430, height: 40, marginLeft: '10px' }}>
                 <InputBase

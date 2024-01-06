@@ -5,9 +5,10 @@ import _debounce from 'lodash/debounce';
 import { getListProductService } from "../../../../../pages/Shop/home/components/product/api";
 import { useRequest } from "ahooks";
 import { useNavigate } from "react-router";
-
+import { useRef } from 'react';
 function SearchFilter() {
   const navigate = useNavigate();
+  const inputRef = useRef(); //
     const [filteredData, setFilteredData] = useState([]);
     const [paging, setPaging] = useState({
       page: 1,
@@ -36,6 +37,10 @@ function SearchFilter() {
       
       setPaging(prev => ({...prev, name: e?.target?.value ?? ''}))
     }, 600)
+    const handleClick = (e) => {
+      const searchValue = inputRef?.current?.value;
+      navigate(`/ProductList?search=${searchValue}`);
+    };
 
   // console.log(listData)
     return(
@@ -50,11 +55,12 @@ function SearchFilter() {
             placeholder="Search..."
             inputProps={{ "aria-label": "search google maps" }}
           />
-          <IconButton type="button" sx={{ p: "10px" }} aria-label="search">
+
+          <IconButton type="button" sx={{ p: "10px" }} aria-label="search " onClick={handleClick} >
             {loadingListData ? <CircularProgress/> : <SearchIcon />}
           </IconButton>
           {filteredData?.length ? (
-            <ul className='h-[320px] absolute top-[100%] overflow-y-scroll bg-white w-full p-2'>
+            <ul className='h-[320px] absolute top-[100%] overflow-y-scroll bg-white w-full p-2 cursor-pointer'>
               {filteredData?.map((item, index)=>(
                 <li key={index} className='flex items-center content-between' onClick={() => navigate(`/product/${item.id}`)}>
                   <img style={{width: '50px'}} src={item?.avatar} alt="" />
